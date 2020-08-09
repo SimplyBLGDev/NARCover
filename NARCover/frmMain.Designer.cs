@@ -192,7 +192,7 @@
 			this.ClientSize = new System.Drawing.Size(405, 185);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "frmMain";
-			this.Text = "Form1";
+			this.Text = "NAR Cover";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.tableLayoutPanel2.ResumeLayout(false);
