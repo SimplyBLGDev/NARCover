@@ -9,15 +9,22 @@ using System.Windows.Forms;
 namespace NARCover {
 	public partial class frmDownloading : Form {
 		const string PUBLICKEY = "97b9ec2c3dd0573d0d03f832c98041320383bfbb7294452d19431bd728b5557a";
+		const string OGIMAGESBASEADDRESS = "https://cdn.thegamesdb.net/images/original/";
 
+		public /*heh*/ string publicKey { get { return publicKey; } } // TODO: Allow a 'override public key' field
 		public string romsPath = "";
+		public string saveDir = "";
 		public List<string> extensions;
 		public List<string> games;
 
-		public frmDownloading(string romsPath, List<string> extensions) {
+		public frmDownloading(string romsPath, List<string> extensions, string saveDir) {
 			InitializeComponent();
 			this.romsPath = romsPath;
 			this.extensions = extensions;
+			if (saveDir == "")
+				this.saveDir = Application.StartupPath + "/images/";
+			else
+				this.saveDir = saveDir;
 		}
 
 		private void frmDownloading_Load(object sender, EventArgs e) {
@@ -32,13 +39,14 @@ namespace NARCover {
 				if (extensions.Contains(Path.GetExtension(name)))
 					games.Add(GetSimplifiedGameName(Path.GetFileNameWithoutExtension(name)));
 
-			// <Game code, file path>
-			Dictionary<int, string> gameImages = new Dictionary<int, string>();
+			// <Game code, GameInfo>
+			Dictionary<int, GameInfo> gamesData = new Dictionary<int, GameInfo>();
 
 			foreach (string game in games)
-				gameImages.Add(ProcessGame(game), "");
+				gamesData.Add(ProcessGame(game), new GameInfo(game));
 
-			FindCovers(gameImages);
+			FindCovers(gamesData);
+			DownloadImages(gamesData.Values.ToArray());
 		}
 
 		private int ProcessGame(string game) {
@@ -59,7 +67,7 @@ namespace NARCover {
 		}
 
 		// Populates a dictionary of game codes with their respective images' urls
-		public void FindCovers(Dictionary<int, string> gameCodes) {
+		private void FindCovers(Dictionary<int, GameInfo> gameCodes) {
 			string gameCodesString = "";
 
 			foreach (int code in gameCodes.Keys)
@@ -77,13 +85,13 @@ namespace NARCover {
 				var availableGameImages = response["data"]["images"][code.ToString()];
 
 				if (availableGameImages.Children().Count() == 0)
-					gameCodes[code] = "";
+					gameCodes[code] = null;
 				else
-					gameCodes[code] = availableGameImages[0].Value<string>("filename");
+					gameCodes[code].imageAddress = availableGameImages[0].Value<string>("filename");
 			}
 		}
 
-		public int FindGameCode(string name) {
+		private int FindGameCode(string name) {
 			string responseString = Get("https://api.thegamesdb.net/v1.1/Games/ByGameName?apikey=" + PUBLICKEY + "&name=" + name);
 			JObject response = JObject.Parse(responseString);
 
@@ -94,6 +102,14 @@ namespace NARCover {
 					throw new GameNotFoundException("Game not found.", name);
 				else
 					return response["data"]["games"][0].Value<int>("id");
+			}
+		}
+
+		void DownloadImages(GameInfo[] gameCodes) {
+
+			foreach (GameInfo game in gameCodes) {
+				using (var client = new WebClient())
+					client.DownloadFile(OGIMAGESBASEADDRESS + game.imageAddress, saveDir + game.name + Path.GetExtension(game.imageAddress));
 			}
 		}
 
@@ -120,13 +136,16 @@ namespace NARCover {
 				}
 			} // Remove anything between parentheses, brackets or chevrons
 
-			for (int i = 0; i < r.Length - 1; i++)
+			for (int i = 0; i < r.Length - 1; i++) {
 				// Titles starting with 'The' are usually rewritten with ', The' at the end to better sort their names, this re-inserts that ending
 				//  into the beggining this method generalizes any such occurences
 				if (r[i] == ',' && r[i + 1] == ' ') {
-					r = r.Substring(i + 2, r.Length - (i + 2)) + r.Substring(0, i);
+					r = r.Substring(i + 2, r.Length - (i + 2)).Trim() + " " + r.Substring(0, i);
 					break;
 				}
+			}
+
+			r = r.Trim();
 
 			return r;
 		}
@@ -142,6 +161,14 @@ namespace NARCover {
 			}
 		}
 
+		private class GameInfo {
+			public string name;
+			public string imageAddress;
+
+			public GameInfo(string name) {
+				this.name = name;
+			}
+		}
 	}
 
 	class APIException : Exception {

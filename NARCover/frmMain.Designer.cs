@@ -34,6 +34,10 @@
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.fbdROMsPath = new System.Windows.Forms.FolderBrowserDialog();
+			this.label4 = new System.Windows.Forms.Label();
+			this.txtSaveDir = new System.Windows.Forms.TextBox();
+			this.btnSaveDir = new System.Windows.Forms.Button();
+			this.fbdSaveDir = new System.Windows.Forms.FolderBrowserDialog();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.SuspendLayout();
@@ -46,23 +50,29 @@
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66667F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-			this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
-			this.tableLayoutPanel1.Controls.Add(this.txtExtensions, 1, 1);
-			this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.txtROMsPath, 1, 0);
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanel1.Controls.Add(this.btnSaveDir, 2, 2);
+			this.tableLayoutPanel1.Controls.Add(this.txtSaveDir, 1, 2);
+			this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
+			this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
 			this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.btnRomsPath, 2, 0);
-			this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 3);
+			this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 5);
+			this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.txtExtensions, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.txtROMsPath, 1, 0);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 4;
+			this.tableLayoutPanel1.RowCount = 6;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(383, 165);
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(383, 191);
 			this.tableLayoutPanel1.TabIndex = 1;
 			// 
 			// label3
@@ -72,9 +82,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
 			this.tableLayoutPanel1.SetColumnSpan(this.label3, 3);
-			this.label3.Location = new System.Drawing.Point(3, 60);
+			this.label3.Location = new System.Drawing.Point(3, 120);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(377, 55);
+			this.label3.Size = new System.Drawing.Size(377, 21);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Extensions are separated by ;";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -85,9 +95,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel1.SetColumnSpan(this.txtExtensions, 2);
-			this.txtExtensions.Location = new System.Drawing.Point(117, 33);
+			this.txtExtensions.Location = new System.Drawing.Point(120, 33);
 			this.txtExtensions.Name = "txtExtensions";
-			this.txtExtensions.Size = new System.Drawing.Size(263, 20);
+			this.txtExtensions.Size = new System.Drawing.Size(260, 20);
 			this.txtExtensions.TabIndex = 6;
 			// 
 			// label2
@@ -98,7 +108,7 @@
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(3, 30);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(108, 30);
+			this.label2.Size = new System.Drawing.Size(111, 30);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Extensions";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -108,9 +118,9 @@
 			this.txtROMsPath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtROMsPath.Location = new System.Drawing.Point(117, 3);
+			this.txtROMsPath.Location = new System.Drawing.Point(120, 3);
 			this.txtROMsPath.Name = "txtROMsPath";
-			this.txtROMsPath.Size = new System.Drawing.Size(224, 20);
+			this.txtROMsPath.Size = new System.Drawing.Size(229, 20);
 			this.txtROMsPath.TabIndex = 0;
 			// 
 			// label1
@@ -121,7 +131,7 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(108, 30);
+			this.label1.Size = new System.Drawing.Size(111, 30);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "ROMs Path";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -131,9 +141,10 @@
 			this.btnRomsPath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnRomsPath.Location = new System.Drawing.Point(347, 3);
+			this.btnRomsPath.Location = new System.Drawing.Point(354, 0);
+			this.btnRomsPath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 4);
 			this.btnRomsPath.Name = "btnRomsPath";
-			this.btnRomsPath.Size = new System.Drawing.Size(33, 24);
+			this.btnRomsPath.Size = new System.Drawing.Size(27, 26);
 			this.btnRomsPath.TabIndex = 2;
 			this.btnRomsPath.Text = "...";
 			this.btnRomsPath.UseVisualStyleBackColor = true;
@@ -151,7 +162,7 @@
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this.tableLayoutPanel2.Controls.Add(this.btnCancel, 0, 0);
 			this.tableLayoutPanel2.Controls.Add(this.btnOK, 2, 0);
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 115);
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 141);
 			this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 1;
@@ -185,11 +196,52 @@
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
 			// 
+			// fbdROMsPath
+			// 
+			this.fbdROMsPath.ShowNewFolderButton = false;
+			// 
+			// label4
+			// 
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(3, 60);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(111, 30);
+			this.label4.TabIndex = 8;
+			this.label4.Text = "Save Images to:";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// txtSaveDir
+			// 
+			this.txtSaveDir.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtSaveDir.Location = new System.Drawing.Point(120, 63);
+			this.txtSaveDir.Name = "txtSaveDir";
+			this.txtSaveDir.Size = new System.Drawing.Size(229, 20);
+			this.txtSaveDir.TabIndex = 9;
+			// 
+			// btnSaveDir
+			// 
+			this.btnSaveDir.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSaveDir.Location = new System.Drawing.Point(354, 60);
+			this.btnSaveDir.Margin = new System.Windows.Forms.Padding(2, 0, 2, 4);
+			this.btnSaveDir.Name = "btnSaveDir";
+			this.btnSaveDir.Size = new System.Drawing.Size(27, 26);
+			this.btnSaveDir.TabIndex = 10;
+			this.btnSaveDir.Text = "...";
+			this.btnSaveDir.UseVisualStyleBackColor = true;
+			this.btnSaveDir.Click += new System.EventHandler(this.btnSaveDir_Click);
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(405, 185);
+			this.ClientSize = new System.Drawing.Size(405, 211);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "frmMain";
 			this.Text = "NAR Cover";
@@ -213,6 +265,10 @@
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.FolderBrowserDialog fbdROMsPath;
+		private System.Windows.Forms.Button btnSaveDir;
+		private System.Windows.Forms.TextBox txtSaveDir;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.FolderBrowserDialog fbdSaveDir;
 	}
 }
 
