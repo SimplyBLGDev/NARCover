@@ -26,5 +26,29 @@ namespace NARCover {
             if (fbdSaveDir.ShowDialog() == DialogResult.OK)
                 txtSaveDir.Text = fbdSaveDir.SelectedPath;
 		}
+
+		private void btnPriorityUp_Click(object sender, EventArgs e) {
+            int index = lbPriority.SelectedIndex;
+            if (index <= 0)
+                return;
+
+            string item = lbPriority.Items[index] as string;
+            lbPriority.Items[index] = lbPriority.Items[index - 1];
+            lbPriority.Items[index - 1] = item;
+
+            lbPriority.SelectedIndex--;
+        }
+
+		private void btnPriorityDown_Click(object sender, EventArgs e) {
+            int index = lbPriority.SelectedIndex;
+            if (index >= lbPriority.Items.Count-1)
+                return;
+
+            string item = lbPriority.Items[index] as string;
+            lbPriority.Items[index] = lbPriority.Items[index + 1];
+            lbPriority.Items[index + 1] = item;
+
+            lbPriority.SelectedIndex++;
+        }
 	}
 }

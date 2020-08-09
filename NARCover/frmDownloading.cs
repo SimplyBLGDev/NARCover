@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NARCover {
@@ -27,7 +28,7 @@ namespace NARCover {
 				this.saveDir = saveDir;
 		}
 
-		private void frmDownloading_Load(object sender, EventArgs e) {
+		private void frmDownloading_Shown(object sender, EventArgs e) {
 			SearchAndDownloadGames();
 		}
 
@@ -46,7 +47,10 @@ namespace NARCover {
 				gamesData.Add(ProcessGame(game), new GameInfo(game));
 
 			FindCovers(gamesData);
-			DownloadImages(gamesData.Values.ToArray());
+
+			pbProgress.Value = 0;
+			pbProgress.Maximum = gamesData.Values.Count;
+			Task.Run(() => DownloadImages(gamesData.Values.ToArray()));
 		}
 
 		private int ProcessGame(string game) {
@@ -84,10 +88,9 @@ namespace NARCover {
 			foreach (int code in keys) {
 				var availableGameImages = response["data"]["images"][code.ToString()];
 
-				if (availableGameImages.Children().Count() == 0)
-					gameCodes[code] = null;
-				else
-					gameCodes[code].imageAddress = availableGameImages[0].Value<string>("filename");
+				for (int i = 0; i < availableGameImages.Count(); i++) {
+					gameCodes[code].imageAddress = availableGameImages[i].Value<string>("filename");
+				}
 			}
 		}
 
@@ -105,12 +108,20 @@ namespace NARCover {
 			}
 		}
 
-		void DownloadImages(GameInfo[] gameCodes) {
-
+		async void DownloadImages(GameInfo[] gameCodes) {
 			foreach (GameInfo game in gameCodes) {
-				using (var client = new WebClient())
-					client.DownloadFile(OGIMAGESBASEADDRESS + game.imageAddress, saveDir + game.name + Path.GetExtension(game.imageAddress));
+				using (var client = new WebClient()) {
+					Uri uri = new Uri(OGIMAGESBASEADDRESS + game.imageAddress);
+					client.DownloadDataCompleted += Client_DownloadDataCompleted;
+					await Task.Run(() => {
+						client.DownloadFileAsync(uri, saveDir + game.name + Path.GetExtension(game.imageAddress)); return true;
+					});
+				}
 			}
+		}
+
+		private void Client_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e) {
+			pbProgress.Value++;
 		}
 
 		public string GetSimplifiedGameName(string name) {
@@ -160,14 +171,14 @@ namespace NARCover {
 				return reader.ReadToEnd();
 			}
 		}
+	}
 
-		private class GameInfo {
-			public string name;
-			public string imageAddress;
+	class GameInfo {
+		public string name;
+		public string imageAddress;
 
-			public GameInfo(string name) {
-				this.name = name;
-			}
+		public GameInfo(string name) {
+			this.name = name;
 		}
 	}
 
