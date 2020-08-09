@@ -55,6 +55,7 @@
 			this.Controls.Add(this.pbProgress);
 			this.Name = "frmDownloading";
 			this.Text = "frmDownloading";
+			this.Load += new System.EventHandler(this.frmDownloading_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

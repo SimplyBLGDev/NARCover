@@ -46,7 +46,7 @@
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.66667F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
 			this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
 			this.tableLayoutPanel1.Controls.Add(this.txtExtensions, 1, 1);
 			this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
@@ -85,9 +85,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel1.SetColumnSpan(this.txtExtensions, 2);
-			this.txtExtensions.Location = new System.Drawing.Point(118, 33);
+			this.txtExtensions.Location = new System.Drawing.Point(117, 33);
 			this.txtExtensions.Name = "txtExtensions";
-			this.txtExtensions.Size = new System.Drawing.Size(262, 20);
+			this.txtExtensions.Size = new System.Drawing.Size(263, 20);
 			this.txtExtensions.TabIndex = 6;
 			// 
 			// label2
@@ -98,7 +98,7 @@
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(3, 30);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(109, 30);
+			this.label2.Size = new System.Drawing.Size(108, 30);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Extensions";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -108,9 +108,9 @@
 			this.txtROMsPath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtROMsPath.Location = new System.Drawing.Point(118, 3);
+			this.txtROMsPath.Location = new System.Drawing.Point(117, 3);
 			this.txtROMsPath.Name = "txtROMsPath";
-			this.txtROMsPath.Size = new System.Drawing.Size(225, 20);
+			this.txtROMsPath.Size = new System.Drawing.Size(224, 20);
 			this.txtROMsPath.TabIndex = 0;
 			// 
 			// label1
@@ -121,7 +121,7 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(109, 30);
+			this.label1.Size = new System.Drawing.Size(108, 30);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "ROMs Path";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -131,12 +131,13 @@
 			this.btnRomsPath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnRomsPath.Location = new System.Drawing.Point(349, 3);
+			this.btnRomsPath.Location = new System.Drawing.Point(347, 3);
 			this.btnRomsPath.Name = "btnRomsPath";
-			this.btnRomsPath.Size = new System.Drawing.Size(31, 24);
+			this.btnRomsPath.Size = new System.Drawing.Size(33, 24);
 			this.btnRomsPath.TabIndex = 2;
 			this.btnRomsPath.Text = "...";
 			this.btnRomsPath.UseVisualStyleBackColor = true;
+			this.btnRomsPath.Click += new System.EventHandler(this.btnRomsPath_Click);
 			// 
 			// tableLayoutPanel2
 			// 

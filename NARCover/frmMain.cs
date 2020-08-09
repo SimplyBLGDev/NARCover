@@ -21,10 +21,11 @@ namespace NARCover {
 
         private void btnOK_Click(object sender, EventArgs e) {
             frmDownloading downloading = new frmDownloading(txtROMsPath.Text, new List<string>(txtExtensions.Text.Split(';')));
+            downloading.ShowDialog();
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
-
+            Close();
 		}
 	}
 }
