@@ -72,7 +72,8 @@ namespace NARCover {
 			if (response.Value<int>("code") != 200)// No success code
 				throw new APIException("API Request Error.", response.Value<int>("code"));
 
-			foreach (int code in gameCodes.Keys) {
+			int[] keys = gameCodes.Keys.ToArray(); // Avoid on-the-fly conflicts due to dictionary modification
+			foreach (int code in keys) {
 				var availableGameImages = response["data"]["images"][code.ToString()];
 
 				if (availableGameImages.Children().Count() == 0)
@@ -97,7 +98,37 @@ namespace NARCover {
 		}
 
 		public string GetSimplifiedGameName(string name) {
-			return name.Replace("(U)", "").Replace("(E)", "").Replace("(J)", "").Replace("(UE)", "").Replace(", The", "");
+			string r = "";
+			int parentheses = 0;
+			int brackets = 0;
+			int chevrons = 0;
+
+			for (int i = 0; i < name.Length; i++) {
+				switch (name[i]) {
+					case '(': parentheses++; break;
+					case '[': brackets++; break;
+					case '<': chevrons++; break;
+				}
+
+				if (parentheses <= 0 && brackets <= 0 && chevrons <= 0)
+					r += name[i];
+
+				switch (name[i]) {
+					case ')': parentheses--; break;
+					case ']': brackets--; break;
+					case '>': chevrons--; break;
+				}
+			} // Remove anything between parentheses, brackets or chevrons
+
+			for (int i = 0; i < r.Length - 1; i++)
+				// Titles starting with 'The' are usually rewritten with ', The' at the end to better sort their names, this re-inserts that ending
+				//  into the beggining this method generalizes any such occurences
+				if (r[i] == ',' && r[i + 1] == ' ') {
+					r = r.Substring(i + 2, r.Length - (i + 2)) + r.Substring(0, i);
+					break;
+				}
+
+			return r;
 		}
 
 		public static string Get(string uri) {
