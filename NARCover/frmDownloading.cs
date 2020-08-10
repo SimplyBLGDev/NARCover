@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace NARCover {
 	public partial class frmDownloading : Form {
@@ -16,12 +17,14 @@ namespace NARCover {
 		public string romsPath = "";
 		public string saveDir = "";
 		public List<string> extensions;
+		public List<string> priorityImageTypes;
 		public List<string> games;
 
-		public frmDownloading(string romsPath, List<string> extensions, string saveDir) {
+		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir) {
 			InitializeComponent();
 			this.romsPath = romsPath;
 			this.extensions = extensions;
+			this.priorityImageTypes = priorityImageTypes;
 			if (saveDir == "")
 				this.saveDir = Application.StartupPath + "/images/";
 			else
@@ -88,9 +91,19 @@ namespace NARCover {
 			foreach (int code in keys) {
 				var availableGameImages = response["data"]["images"][code.ToString()];
 
-				for (int i = 0; i < availableGameImages.Count(); i++) {
-					gameCodes[code].imageAddress = availableGameImages[i].Value<string>("filename");
+				foreach (string imageType in priorityImageTypes) {
+					for (int i = 0; i < availableGameImages.Count(); i++)
+						if ((availableGameImages[i].Value<string>("type") == imageType)
+						&& (imageType != "boxart" || availableGameImages[i].Value<string>("side") == "front")) { // If looking for boxart only take the front side
+
+							gameCodes[code].imageAddress = availableGameImages[i].Value<string>("filename");
+							break;
+						}
+
+					if (gameCodes[code].imageAddress != "")
+						break; // break when we found the image
 				}
+
 			}
 		}
 

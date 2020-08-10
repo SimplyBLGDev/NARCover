@@ -38,9 +38,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblCurrentDownload.AutoEllipsis = true;
 			this.lblCurrentDownload.Cursor = System.Windows.Forms.Cursors.Arrow;
-			this.lblCurrentDownload.Location = new System.Drawing.Point(9, 437);
+			this.lblCurrentDownload.Location = new System.Drawing.Point(9, 380);
 			this.lblCurrentDownload.Name = "lblCurrentDownload";
-			this.lblCurrentDownload.Size = new System.Drawing.Size(423, 13);
+			this.lblCurrentDownload.Size = new System.Drawing.Size(296, 13);
 			this.lblCurrentDownload.TabIndex = 3;
 			this.lblCurrentDownload.Text = "-";
 			this.lblCurrentDownload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -49,9 +49,9 @@
 			// 
 			this.pbProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pbProgress.Location = new System.Drawing.Point(9, 453);
+			this.pbProgress.Location = new System.Drawing.Point(9, 396);
 			this.pbProgress.Name = "pbProgress";
-			this.pbProgress.Size = new System.Drawing.Size(423, 23);
+			this.pbProgress.Size = new System.Drawing.Size(296, 23);
 			this.pbProgress.TabIndex = 2;
 			this.pbProgress.Value = 50;
 			// 
@@ -60,11 +60,10 @@
 			this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel1.ColumnCount = 2;
+			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.82662F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.17338F));
-			this.tableLayoutPanel1.Controls.Add(this.pbImagePreview, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.lblPreviewGameName, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.pbImagePreview, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.lblPreviewGameName, 0, 1);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 13);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 4;
@@ -72,7 +71,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.45607F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(423, 421);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 364);
 			this.tableLayoutPanel1.TabIndex = 4;
 			// 
 			// pbImagePreview
@@ -80,9 +79,9 @@
 			this.pbImagePreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pbImagePreview.Location = new System.Drawing.Point(294, 3);
+			this.pbImagePreview.Location = new System.Drawing.Point(3, 3);
 			this.pbImagePreview.Name = "pbImagePreview";
-			this.pbImagePreview.Size = new System.Drawing.Size(126, 301);
+			this.pbImagePreview.Size = new System.Drawing.Size(290, 255);
 			this.pbImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pbImagePreview.TabIndex = 0;
 			this.pbImagePreview.TabStop = false;
@@ -93,9 +92,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblPreviewGameName.AutoEllipsis = true;
-			this.lblPreviewGameName.Location = new System.Drawing.Point(294, 307);
+			this.lblPreviewGameName.Location = new System.Drawing.Point(3, 261);
 			this.lblPreviewGameName.Name = "lblPreviewGameName";
-			this.lblPreviewGameName.Size = new System.Drawing.Size(126, 19);
+			this.lblPreviewGameName.Size = new System.Drawing.Size(290, 19);
 			this.lblPreviewGameName.TabIndex = 1;
 			this.lblPreviewGameName.Text = "-";
 			this.lblPreviewGameName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -104,7 +103,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(444, 488);
+			this.ClientSize = new System.Drawing.Size(317, 431);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.lblCurrentDownload);
 			this.Controls.Add(this.pbProgress);

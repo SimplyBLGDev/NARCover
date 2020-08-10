@@ -9,7 +9,14 @@ namespace NARCover {
         }
 
         private void btnOK_Click(object sender, EventArgs e) {
-            frmDownloading downloading = new frmDownloading(txtROMsPath.Text, new List<string>(txtExtensions.Text.Split(';')), txtSaveDir.Text);
+            string romsPath = txtROMsPath.Text;
+            List<string> extensions = new List<string>(txtExtensions.Text.Split(';'));
+            List<string> priorityList = new List<string>();
+            foreach (string type in lbPriority.Items)
+                priorityList.Add(type);
+            string saveDir = txtSaveDir.Text;
+
+            frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir);
             downloading.ShowDialog();
         }
 
