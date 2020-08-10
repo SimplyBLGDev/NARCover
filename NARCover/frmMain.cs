@@ -9,7 +9,7 @@ namespace NARCover {
 
 		public frmMain() {
 			InitializeComponent();
-			//PopulatePlatformCMB();
+			PopulatePlatformCMB();
 		}
 
 		private void PopulatePlatformCMB() {
@@ -33,8 +33,7 @@ namespace NARCover {
 			foreach (string type in lbPriority.Items)
 				priorityList.Add(type);
 			string saveDir = txtSaveDir.Text;
-			//int console = platformIds[cmbConsole.Text];
-			int console = 0;
+			int console = platformIds[cmbConsole.Text];
 
 			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console);
 			downloading.ShowDialog();

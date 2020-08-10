@@ -34,6 +34,7 @@
 			this.lblState1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lblState2 = new System.Windows.Forms.Label();
+			this.lvMissingGames = new System.Windows.Forms.ListView();
 			((System.ComponentModel.ISupportInitialize)(this.pbImagePreview)).BeginInit();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
@@ -57,10 +58,10 @@
 			this.pbProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.pbProgress.Location = new System.Drawing.Point(9, 396);
+			this.pbProgress.Maximum = 10;
 			this.pbProgress.Name = "pbProgress";
 			this.pbProgress.Size = new System.Drawing.Size(411, 23);
 			this.pbProgress.TabIndex = 2;
-			this.pbProgress.Value = 50;
 			// 
 			// lblPreviewGameName
 			// 
@@ -98,6 +99,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.pbImagePreview, 1, 1);
 			this.tableLayoutPanel1.Controls.Add(this.lblPreviewGameName, 1, 2);
 			this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.lvMissingGames, 0, 1);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 13);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 5;
@@ -201,6 +203,19 @@
 			this.lblState2.Text = "Downloading images";
 			this.lblState2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// lvMissingGames
+			// 
+			this.lvMissingGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lvMissingGames.HideSelection = false;
+			this.lvMissingGames.Location = new System.Drawing.Point(3, 33);
+			this.lvMissingGames.Name = "lvMissingGames";
+			this.lvMissingGames.Size = new System.Drawing.Size(227, 231);
+			this.lvMissingGames.TabIndex = 3;
+			this.lvMissingGames.UseCompatibleStateImageBehavior = false;
+			this.lvMissingGames.View = System.Windows.Forms.View.List;
+			// 
 			// frmDownloading
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -234,5 +249,6 @@
 		private System.Windows.Forms.Label lblState1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label lblState0;
+		private System.Windows.Forms.ListView lvMissingGames;
 	}
 }

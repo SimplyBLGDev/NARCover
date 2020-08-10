@@ -58,7 +58,7 @@ namespace NARCover {
 		}
 	}
 
-	class GameInfo {
+	public class GameInfo {
 		public string name;
 		public string imageAddress;
 
@@ -67,16 +67,16 @@ namespace NARCover {
 		}
 	}
 
-	class APIException : Exception {
-		int errorCode;
+	public class APIException : Exception {
+		public int errorCode;
 
 		public APIException(string message, int code) : base(message) {
 			errorCode = code;
 		}
 	}
 
-	class GameNotFoundException : Exception {
-		string game;
+	public class GameNotFoundException : Exception {
+		public string game;
 
 		public GameNotFoundException(string message, string game) : base(message) {
 			this.game = game;

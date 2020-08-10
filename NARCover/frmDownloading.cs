@@ -28,7 +28,23 @@ namespace NARCover {
 				downloader.saveDir = saveDir;
 		}
 
-		void APIError(APIException e) {
+		private void frmDownloading_Shown(object sender, EventArgs e) {
+			downloader.OnAPIException += Downloader_APIException;
+			downloader.OnGameNotFound += Downloader_GameNotFound;
+			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
+			downloader.Start();
+		}
+
+		private void Downloader_ImageDownloaded(GameInfo game) {
+			Invoke(new MethodInvoker(() => pbProgress.Value++));
+			Invoke(new MethodInvoker(() => lblPreviewGameName.Text = game.name));
+		}
+
+		private void Downloader_GameNotFound(GameNotFoundException e) {
+			lvMissingGames.Items.Add(e.game);
+		}
+
+		private void Downloader_APIException(APIException e) {
 			switch (MessageBox.Show("API request error, the games DB might be offline or API outdated, check https://thegamesdb.net or " +
 					"contact me at https://github.com/SimplyBLGDev/NARCover.", "API Exception", MessageBoxButtons.OKCancel, MessageBoxIcon.Error)) {
 				case DialogResult.Cancel:
@@ -37,10 +53,6 @@ namespace NARCover {
 				case DialogResult.OK:
 					break;
 			}
-		}
-
-		private void frmDownloading_Shown(object sender, EventArgs e) {
-			//downloader.SearchAndDownloadGames();
 		}
 
 		private void UpdateStateLabels(int newState) {
