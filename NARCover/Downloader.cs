@@ -25,11 +25,15 @@ namespace NARCover {
 		public List<string> games;
 
 		public delegate void GameNotFoundDel(GameNotFoundException e);
-		public event GameNotFoundDel OnGameNotFound;
 		public delegate void APIExceptionDel(APIException e);
+		public delegate void GameInfoDel(GameInfo game, string imagePath);
+		public delegate void StartDownloadingDel(int gamesFound);
+		public delegate void StartFindingCoversDel(int gamesFound);
+		public event GameNotFoundDel OnGameNotFound;
 		public event APIExceptionDel OnAPIException;
-		public delegate void GameInfoDel(GameInfo game);
 		public event GameInfoDel OnImageDownloaded;
+		public event StartFindingCoversDel OnStartFindingCovers;
+		public event StartDownloadingDel OnStartDownload;
 
 		public void Start() {
 			Task.Run(() => SearchAndDownloadGames());
@@ -46,11 +50,16 @@ namespace NARCover {
 			// <Game code, GameInfo>
 			Dictionary<int, GameInfo> gamesData = new Dictionary<int, GameInfo>();
 
-			foreach (string game in games)
-				gamesData.Add(ProcessGame(game), new GameInfo(game));
+			foreach (string game in games) {
+				int gameId = ProcessGame(game);
+				if (gameId != -1)
+					gamesData.Add(gameId, new GameInfo(game));
+			}
 
+			OnStartFindingCovers(gamesData.Count);
 			FindCovers(gamesData);
 
+			OnStartDownload(gamesData.Count);
 			DownloadImages(gamesData.Values.ToArray());
 		}
 
@@ -64,6 +73,20 @@ namespace NARCover {
 			}
 
 			return -1;
+		}
+
+		private int FindGameCode(string name) {
+			string responseString = Utils.Get("https://api.thegamesdb.net/v1.1/Games/ByGameName?apikey=" + publicKey + "&name=" + name + "&filter[platform]=" + consoleId.ToString());
+			JObject response = JObject.Parse(responseString);
+
+			if (response.Value<int>("code") != 200) { // No success code
+				throw new APIException("API Request Error.", response.Value<int>("code"));
+			} else {
+				if (response["data"].Value<int>("count") == 0)
+					throw new GameNotFoundException("Game not found.", name);
+				else
+					return response["data"]["games"][0].Value<int>("id");
+			}
 		}
 
 		// Populates a dictionary of game codes with their respective images' urls
@@ -97,20 +120,8 @@ namespace NARCover {
 						break; // break when we found the image
 				}
 
-			}
-		}
-
-		private int FindGameCode(string name) {
-			string responseString = Utils.Get("https://api.thegamesdb.net/v1.1/Games/ByGameName?apikey=" + publicKey + "&name=" + name + "&filter[platform]=" + consoleId.ToString());
-			JObject response = JObject.Parse(responseString);
-
-			if (response.Value<int>("code") != 200) { // No success code
-				throw new APIException("API Request Error.", response.Value<int>("code"));
-			} else {
-				if (response["data"].Value<int>("count") == 0)
-					throw new GameNotFoundException("Game not found.", name);
-				else
-					return response["data"]["games"][0].Value<int>("id");
+				if (gameCodes[code].imageAddress == "") // If no image could be found
+					gameCodes.Remove(code);
 			}
 		}
 
@@ -119,7 +130,7 @@ namespace NARCover {
 				using (var client = new WebClient()) {
 					Uri uri = new Uri(OGIMAGESBASEADDRESS + game.imageAddress);
 					client.DownloadFile(uri, saveDir + game.name + Path.GetExtension(game.imageAddress));
-					OnImageDownloaded(game);
+					OnImageDownloaded(game, saveDir + game.name + Path.GetExtension(game.imageAddress));
 				}
 			}
 		}

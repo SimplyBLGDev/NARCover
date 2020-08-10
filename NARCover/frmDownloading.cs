@@ -28,20 +28,54 @@ namespace NARCover {
 				downloader.saveDir = saveDir;
 		}
 
+		private void UpdateStateLabels(int newState) {
+			Label currentStateLabel;
+			Label[] stateLabels = new Label[] { lblState0, lblState1, lblState2};
+
+			currentStateLabel = stateLabels[newState];
+
+			for (int i = 0; i < stateLabels.Length; i++)
+				if (i == newState)
+					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Bold);
+				else
+					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Regular);
+		}
+
 		private void frmDownloading_Shown(object sender, EventArgs e) {
 			downloader.OnAPIException += Downloader_APIException;
 			downloader.OnGameNotFound += Downloader_GameNotFound;
 			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
+			downloader.OnStartDownload += Downloader_OnStartDownload;
+			downloader.OnStartFindingCovers += Downloader_OnStartFindingCovers;
 			downloader.Start();
 		}
 
-		private void Downloader_ImageDownloaded(GameInfo game) {
-			Invoke(new MethodInvoker(() => pbProgress.Value++));
-			Invoke(new MethodInvoker(() => lblPreviewGameName.Text = game.name));
+		private void Downloader_OnStartFindingCovers(int gamesFound) {
+			Invoke(new MethodInvoker(() => {
+				UpdateStateLabels(1);
+			}));
+		}
+
+		private void Downloader_OnStartDownload(int gamesFound) {
+			Invoke(new MethodInvoker(() => {
+				UpdateStateLabels(2);
+				pbProgress.Maximum = gamesFound;
+			}));
+		}
+
+		private void Downloader_ImageDownloaded(GameInfo game, string imagePath) {
+			Invoke(new MethodInvoker(() => {
+				pbProgress.Value++;
+				lblPreviewGameName.Text = game.name;
+				pbImagePreview.ImageLocation = imagePath;
+				lblCurrentDownload.Text = "Downloaded " + game.name + " to " + imagePath;
+			}));
 		}
 
 		private void Downloader_GameNotFound(GameNotFoundException e) {
-			lvMissingGames.Items.Add(e.game);
+			Invoke(new MethodInvoker(() => {
+				lvMissingGames.Items.Add(e.game);
+			}));
 		}
 
 		private void Downloader_APIException(APIException e) {
@@ -53,19 +87,6 @@ namespace NARCover {
 				case DialogResult.OK:
 					break;
 			}
-		}
-
-		private void UpdateStateLabels(int newState) {
-			Label currentStateLabel;
-			Label[] stateLabels = new Label[] { lblState0, lblState1, lblState2};
-			
-			currentStateLabel = stateLabels[newState];
-
-			for (int i = 0; i < stateLabels.Length; i++)
-				if (i == newState)
-					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Bold);
-				else
-					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Regular);
 		}
 	}
 }
