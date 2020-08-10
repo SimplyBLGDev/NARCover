@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace NARCover {
@@ -25,7 +26,26 @@ namespace NARCover {
 			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
 			downloader.OnStartDownload += Downloader_OnStartDownload;
 			downloader.OnStartFindingCovers += Downloader_OnStartFindingCovers;
+			downloader.OnDone += Downloader_OnDone;
 			downloader.Start();
+		}
+
+		private void btnExportNotFound_Click(object sender, EventArgs e) {
+			string path = Application.StartupPath + "Games Not Found_" + DateTime.Now.ToString("u") + ".txt";
+			string export = "Games not found:\n";
+
+			foreach (string entry in lvMissingGames.Items)
+				export += "\n" + entry;
+
+			File.WriteAllText(path, export);
+
+			lblExportStatus.Text = "Games Not Found list written to " + path;
+			btnExportNotFound.Enabled = false;
+		}
+
+		private void Downloader_OnDone() {
+			MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			btnExportNotFound.Enabled = true;
 		}
 
 		private void UpdateStateLabels(int newState) {

@@ -28,11 +28,13 @@ namespace NARCover {
 		public delegate void GameInfoDel(GameInfo game, string imagePath);
 		public delegate void StartDownloadingDel(int gamesFound);
 		public delegate void StartFindingCoversDel(int gamesFound);
+		public delegate void Done();
 		public event GameNotFoundDel OnGameNotFound;
 		public event APIExceptionDel OnAPIException;
 		public event GameInfoDel OnImageDownloaded;
 		public event StartFindingCoversDel OnStartFindingCovers;
 		public event StartDownloadingDel OnStartDownload;
+		public event Done OnDone;
 
 		public void Start() {
 			Task.Run(() => SearchAndDownloadGames());

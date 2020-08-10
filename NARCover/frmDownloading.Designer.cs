@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDownloading));
 			this.lblCurrentDownload = new System.Windows.Forms.Label();
 			this.pbProgress = new System.Windows.Forms.ProgressBar();
 			this.lblPreviewGameName = new System.Windows.Forms.Label();
@@ -36,6 +37,8 @@
 			this.lblState2 = new System.Windows.Forms.Label();
 			this.lvMissingGames = new System.Windows.Forms.ListView();
 			this.label3 = new System.Windows.Forms.Label();
+			this.btnExportNotFound = new System.Windows.Forms.Button();
+			this.lblExportStatus = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pbImagePreview)).BeginInit();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
@@ -70,9 +73,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblPreviewGameName.AutoEllipsis = true;
-			this.lblPreviewGameName.Location = new System.Drawing.Point(165, 334);
+			this.lblPreviewGameName.Location = new System.Drawing.Point(183, 334);
 			this.lblPreviewGameName.Name = "lblPreviewGameName";
-			this.lblPreviewGameName.Size = new System.Drawing.Size(231, 30);
+			this.lblPreviewGameName.Size = new System.Drawing.Size(213, 30);
 			this.lblPreviewGameName.TabIndex = 1;
 			this.lblPreviewGameName.Text = "-";
 			this.lblPreviewGameName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -82,10 +85,10 @@
 			this.pbImagePreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pbImagePreview.Location = new System.Drawing.Point(165, 33);
+			this.pbImagePreview.Location = new System.Drawing.Point(183, 33);
 			this.pbImagePreview.Name = "pbImagePreview";
 			this.tableLayoutPanel1.SetRowSpan(this.pbImagePreview, 2);
-			this.pbImagePreview.Size = new System.Drawing.Size(231, 298);
+			this.pbImagePreview.Size = new System.Drawing.Size(213, 298);
 			this.pbImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pbImagePreview.TabIndex = 0;
 			this.pbImagePreview.TabStop = false;
@@ -95,14 +98,17 @@
 			this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
+			this.tableLayoutPanel1.ColumnCount = 3;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.pbImagePreview, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.pbImagePreview, 2, 1);
+			this.tableLayoutPanel1.Controls.Add(this.lblPreviewGameName, 2, 3);
 			this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.lblPreviewGameName, 1, 3);
+			this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.lvMissingGames, 0, 2);
+			this.tableLayoutPanel1.Controls.Add(this.btnExportNotFound, 0, 3);
+			this.tableLayoutPanel1.Controls.Add(this.lblExportStatus, 1, 3);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 13);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 4;
@@ -110,7 +116,6 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(399, 364);
 			this.tableLayoutPanel1.TabIndex = 4;
 			// 
@@ -120,7 +125,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel2.ColumnCount = 5;
-			this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 2);
+			this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 3);
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
@@ -211,11 +216,11 @@
 			this.lvMissingGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.tableLayoutPanel1.SetColumnSpan(this.lvMissingGames, 2);
 			this.lvMissingGames.HideSelection = false;
 			this.lvMissingGames.Location = new System.Drawing.Point(3, 63);
 			this.lvMissingGames.Name = "lvMissingGames";
-			this.tableLayoutPanel1.SetRowSpan(this.lvMissingGames, 2);
-			this.lvMissingGames.Size = new System.Drawing.Size(156, 298);
+			this.lvMissingGames.Size = new System.Drawing.Size(174, 268);
 			this.lvMissingGames.TabIndex = 3;
 			this.lvMissingGames.UseCompatibleStateImageBehavior = false;
 			this.lvMissingGames.View = System.Windows.Forms.View.List;
@@ -226,13 +231,41 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoEllipsis = true;
+			this.tableLayoutPanel1.SetColumnSpan(this.label3, 2);
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.Location = new System.Drawing.Point(3, 30);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(156, 30);
+			this.label3.Size = new System.Drawing.Size(174, 30);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Games not found:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// btnExportNotFound
+			// 
+			this.btnExportNotFound.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnExportNotFound.Enabled = false;
+			this.btnExportNotFound.Location = new System.Drawing.Point(3, 337);
+			this.btnExportNotFound.Name = "btnExportNotFound";
+			this.btnExportNotFound.Size = new System.Drawing.Size(84, 24);
+			this.btnExportNotFound.TabIndex = 5;
+			this.btnExportNotFound.Text = "Save as .txt";
+			this.btnExportNotFound.UseVisualStyleBackColor = true;
+			this.btnExportNotFound.Click += new System.EventHandler(this.btnExportNotFound_Click);
+			// 
+			// lblExportStatus
+			// 
+			this.lblExportStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblExportStatus.AutoSize = true;
+			this.lblExportStatus.Location = new System.Drawing.Point(93, 337);
+			this.lblExportStatus.Margin = new System.Windows.Forms.Padding(3);
+			this.lblExportStatus.Name = "lblExportStatus";
+			this.lblExportStatus.Size = new System.Drawing.Size(84, 24);
+			this.lblExportStatus.TabIndex = 6;
+			this.lblExportStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// frmDownloading
 			// 
@@ -242,12 +275,14 @@
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.lblCurrentDownload);
 			this.Controls.Add(this.pbProgress);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(300, 400);
 			this.Name = "frmDownloading";
 			this.Text = "Downloading...";
 			this.Shown += new System.EventHandler(this.frmDownloading_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.pbImagePreview)).EndInit();
 			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
 			this.ResumeLayout(false);
@@ -269,5 +304,7 @@
 		private System.Windows.Forms.Label lblState0;
 		private System.Windows.Forms.ListView lvMissingGames;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Button btnExportNotFound;
+		private System.Windows.Forms.Label lblExportStatus;
 	}
 }
