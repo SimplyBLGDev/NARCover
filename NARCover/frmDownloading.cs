@@ -10,21 +10,22 @@ using System.Windows.Forms.VisualStyles;
 
 namespace NARCover {
 	public partial class frmDownloading : Form {
-		const string PUBLICKEY = "97b9ec2c3dd0573d0d03f832c98041320383bfbb7294452d19431bd728b5557a";
 		const string OGIMAGESBASEADDRESS = "https://cdn.thegamesdb.net/images/original/";
 
-		public /*heh*/ string publicKey { get { return publicKey; } } // TODO: Allow a 'override public key' field
+		public /*heh*/ string publicKey { get { return Utils.PUBLICKEY; } } // TODO: Allow a 'override public key' field
 		public string romsPath = "";
 		public string saveDir = "";
+		public int consoleId;
 		public List<string> extensions;
 		public List<string> priorityImageTypes;
 		public List<string> games;
 
-		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir) {
+		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir, int console) {
 			InitializeComponent();
 			this.romsPath = romsPath;
 			this.extensions = extensions;
 			this.priorityImageTypes = priorityImageTypes;
+			consoleId = console;
 			if (saveDir == "")
 				this.saveDir = Application.StartupPath + "/images/";
 			else
@@ -81,7 +82,7 @@ namespace NARCover {
 				gameCodesString += (gameCodesString != "" ? ", ": "") + code.ToString();
 
 			// Get all games images in a single request
-			string responseString = Get("https://api.thegamesdb.net/v1/Games/Images?apikey=" + PUBLICKEY + "&games_id=" + gameCodesString);
+			string responseString = Utils.Get("https://api.thegamesdb.net/v1/Games/Images?apikey=" + publicKey + "&games_id=" + gameCodesString);
 			JObject response = JObject.Parse(responseString);
 
 			if (response.Value<int>("code") != 200)// No success code
@@ -108,7 +109,7 @@ namespace NARCover {
 		}
 
 		private int FindGameCode(string name) {
-			string responseString = Get("https://api.thegamesdb.net/v1.1/Games/ByGameName?apikey=" + PUBLICKEY + "&name=" + name);
+			string responseString = Utils.Get("https://api.thegamesdb.net/v1.1/Games/ByGameName?apikey=" + publicKey + "&name=" + name + "&filter[platform]=" + consoleId.ToString());
 			JObject response = JObject.Parse(responseString);
 
 			if (response.Value<int>("code") != 200) { // No success code
@@ -172,17 +173,6 @@ namespace NARCover {
 			r = r.Trim();
 
 			return r;
-		}
-
-		public static string Get(string uri) {
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-			request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-			using (Stream stream = response.GetResponseStream())
-			using (StreamReader reader = new StreamReader(stream)) {
-				return reader.ReadToEnd();
-			}
 		}
 	}
 
