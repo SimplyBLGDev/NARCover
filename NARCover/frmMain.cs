@@ -55,6 +55,7 @@ namespace NARCover {
 			cmbQuality.Items.Clear();
 			foreach (string entry in imageSourceQualities.Keys)
 				cmbQuality.Items.Add(entry);
+			cmbQuality.SelectedIndex = 0;
 		}
 
 		private void btnOK_Click(object sender, EventArgs e) {
@@ -67,6 +68,8 @@ namespace NARCover {
 				errorMsg += "Images' save dir invalid.\n";
 			else if (txtExtensions.Text.Split(';').Length == 0)
 				errorMsg += "Select at least one file extension.\n";
+			else if (!imageSourceQualities.ContainsKey(cmbQuality.Text))
+				errorMsg += "Quality not valid.\n";
 
 			if (errorMsg != "") {
 				MessageBox.Show(errorMsg.Trim(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
