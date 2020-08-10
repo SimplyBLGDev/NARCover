@@ -86,7 +86,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(393, 396);
-			this.tableLayoutPanel1.TabIndex = 1;
+			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// label6
 			// 
@@ -152,7 +152,7 @@
 			this.btnRomsPath.Margin = new System.Windows.Forms.Padding(3, 1, 3, 5);
 			this.btnRomsPath.Name = "btnRomsPath";
 			this.btnRomsPath.Size = new System.Drawing.Size(24, 24);
-			this.btnRomsPath.TabIndex = 2;
+			this.btnRomsPath.TabIndex = 1;
 			this.btnRomsPath.Text = "...";
 			this.btnRomsPath.UseVisualStyleBackColor = true;
 			this.btnRomsPath.Click += new System.EventHandler(this.btnRomsPath_Click);
@@ -175,7 +175,7 @@
 			this.tableLayoutPanel2.RowCount = 1;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel2.Size = new System.Drawing.Size(393, 50);
-			this.tableLayoutPanel2.TabIndex = 4;
+			this.tableLayoutPanel2.TabIndex = 10;
 			// 
 			// btnCancel
 			// 
@@ -185,7 +185,7 @@
 			this.btnCancel.Location = new System.Drawing.Point(3, 3);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(144, 44);
-			this.btnCancel.TabIndex = 3;
+			this.btnCancel.TabIndex = 9;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -198,7 +198,7 @@
 			this.btnOK.Location = new System.Drawing.Point(246, 3);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(144, 44);
-			this.btnOK.TabIndex = 4;
+			this.btnOK.TabIndex = 10;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -225,7 +225,7 @@
 			this.txtExtensions.Location = new System.Drawing.Point(103, 33);
 			this.txtExtensions.Name = "txtExtensions";
 			this.txtExtensions.Size = new System.Drawing.Size(287, 20);
-			this.txtExtensions.TabIndex = 6;
+			this.txtExtensions.TabIndex = 2;
 			// 
 			// txtROMsPath
 			// 
@@ -257,7 +257,7 @@
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel3.Size = new System.Drawing.Size(393, 166);
-			this.tableLayoutPanel3.TabIndex = 11;
+			this.tableLayoutPanel3.TabIndex = 20;
 			// 
 			// btnPriorityUp
 			// 
@@ -267,7 +267,7 @@
 			this.btnPriorityUp.Location = new System.Drawing.Point(366, 109);
 			this.btnPriorityUp.Name = "btnPriorityUp";
 			this.btnPriorityUp.Size = new System.Drawing.Size(24, 24);
-			this.btnPriorityUp.TabIndex = 0;
+			this.btnPriorityUp.TabIndex = 7;
 			this.btnPriorityUp.Text = "🡅";
 			this.btnPriorityUp.UseVisualStyleBackColor = true;
 			this.btnPriorityUp.Click += new System.EventHandler(this.btnPriorityUp_Click);
@@ -280,7 +280,7 @@
 			this.btnPriorityDown.Location = new System.Drawing.Point(366, 139);
 			this.btnPriorityDown.Name = "btnPriorityDown";
 			this.btnPriorityDown.Size = new System.Drawing.Size(24, 24);
-			this.btnPriorityDown.TabIndex = 1;
+			this.btnPriorityDown.TabIndex = 8;
 			this.btnPriorityDown.Text = "🡇";
 			this.btnPriorityDown.UseVisualStyleBackColor = true;
 			this.btnPriorityDown.Click += new System.EventHandler(this.btnPriorityDown_Click);
@@ -301,7 +301,7 @@
 			this.lbPriority.Name = "lbPriority";
 			this.tableLayoutPanel3.SetRowSpan(this.lbPriority, 3);
 			this.lbPriority.Size = new System.Drawing.Size(357, 160);
-			this.lbPriority.TabIndex = 2;
+			this.lbPriority.TabIndex = 6;
 			// 
 			// label4
 			// 
@@ -324,7 +324,7 @@
 			this.txtSaveDir.Location = new System.Drawing.Point(103, 63);
 			this.txtSaveDir.Name = "txtSaveDir";
 			this.txtSaveDir.Size = new System.Drawing.Size(257, 20);
-			this.txtSaveDir.TabIndex = 9;
+			this.txtSaveDir.TabIndex = 3;
 			// 
 			// btnSaveDir
 			// 
@@ -335,7 +335,7 @@
 			this.btnSaveDir.Margin = new System.Windows.Forms.Padding(3, 1, 3, 5);
 			this.btnSaveDir.Name = "btnSaveDir";
 			this.btnSaveDir.Size = new System.Drawing.Size(24, 24);
-			this.btnSaveDir.TabIndex = 10;
+			this.btnSaveDir.TabIndex = 4;
 			this.btnSaveDir.Text = "...";
 			this.btnSaveDir.UseVisualStyleBackColor = true;
 			this.btnSaveDir.Click += new System.EventHandler(this.btnSaveDir_Click);
@@ -345,6 +345,7 @@
 			this.cmbConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.cmbConsole.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.tableLayoutPanel1.SetColumnSpan(this.cmbConsole, 2);
 			this.cmbConsole.FormattingEnabled = true;
 			this.cmbConsole.Items.AddRange(new object[] {
@@ -465,7 +466,7 @@
 			this.cmbConsole.Location = new System.Drawing.Point(103, 93);
 			this.cmbConsole.Name = "cmbConsole";
 			this.cmbConsole.Size = new System.Drawing.Size(287, 21);
-			this.cmbConsole.TabIndex = 14;
+			this.cmbConsole.TabIndex = 5;
 			// 
 			// fbdROMsPath
 			// 
@@ -480,6 +481,7 @@
 			this.MinimumSize = new System.Drawing.Size(339, 455);
 			this.Name = "frmMain";
 			this.Text = "NAR Cover";
+			this.Shown += new System.EventHandler(this.frmMain_Shown);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.tableLayoutPanel2.ResumeLayout(false);
@@ -490,19 +492,20 @@
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox txtExtensions;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox txtROMsPath;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button btnRomsPath;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private System.Windows.Forms.TextBox txtExtensions;
+		private System.Windows.Forms.TextBox txtSaveDir;
+		private System.Windows.Forms.Button btnSaveDir;
+		private System.Windows.Forms.ComboBox cmbConsole;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnOK;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private System.Windows.Forms.FolderBrowserDialog fbdROMsPath;
-		private System.Windows.Forms.Button btnSaveDir;
-		private System.Windows.Forms.TextBox txtSaveDir;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.FolderBrowserDialog fbdSaveDir;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
@@ -511,7 +514,6 @@
 		private System.Windows.Forms.ListBox lbPriority;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.ComboBox cmbConsole;
 	}
 }
 

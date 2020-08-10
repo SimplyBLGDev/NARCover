@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace NARCover {
@@ -9,7 +10,18 @@ namespace NARCover {
 
 		public frmMain() {
 			InitializeComponent();
-			PopulatePlatformCMB();
+			fbdSaveDir.SelectedPath = Application.StartupPath + "/images/";
+			txtSaveDir.Text = fbdSaveDir.SelectedPath;
+		}
+
+		private void frmMain_Shown(object sender, EventArgs e) {
+			try {
+				PopulatePlatformCMB();
+			} catch (APIException ex) {
+				if (MessageBox.Show("API request error, the games DB might be offline or API outdated, check https://thegamesdb.net or " +
+					"contact me at https://github.com/SimplyBLGDev/NARCover.", "API Exception", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+					Close();
+			}
 		}
 
 		private void PopulatePlatformCMB() {
@@ -24,15 +36,34 @@ namespace NARCover {
 					platformIds.Add(platform.First.Value<string>("name"), platform.First.Value<int>("id"));
 				}
 			}
+
+			cmbConsole.SelectedIndex = 0;
 		}
 
 		private void btnOK_Click(object sender, EventArgs e) {
+			string errorMsg = "";
+			if (!platformIds.ContainsKey(cmbConsole.Text))
+				errorMsg += "Invalid console, pick one from the dropdown list.\n";
+			else if (!Directory.Exists(txtROMsPath.Text))
+				errorMsg += "ROMs Path invalid.\n";
+			else if (!Directory.Exists(txtSaveDir.Text))
+				errorMsg += "Images' save dir invalid.\n";
+			else if (txtExtensions.Text.Split(';').Length == 0)
+				errorMsg += "Select at least one file extension.\n";
+
+			if (errorMsg != "") {
+				MessageBox.Show(errorMsg.Trim(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			string romsPath = txtROMsPath.Text;
 			List<string> extensions = new List<string>(txtExtensions.Text.Split(';'));
 			List<string> priorityList = new List<string>();
+			string saveDir = txtSaveDir.Text;
+
 			foreach (string type in lbPriority.Items)
 				priorityList.Add(type);
-			string saveDir = txtSaveDir.Text;
+
 			int console = platformIds[cmbConsole.Text];
 
 			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console);

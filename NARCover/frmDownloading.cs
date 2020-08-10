@@ -1,13 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace NARCover {
 	public partial class frmDownloading : Form {
@@ -22,10 +16,16 @@ namespace NARCover {
 			downloader.extensions = extensions;
 			downloader.priorityImageTypes = priorityImageTypes;
 			downloader.consoleId = console;
-			if (saveDir == "")
-				downloader.saveDir = Application.StartupPath + "/images/";
-			else
-				downloader.saveDir = saveDir;
+			downloader.saveDir = saveDir;
+		}
+
+		private void frmDownloading_Shown(object sender, EventArgs e) {
+			downloader.OnAPIException += Downloader_APIException;
+			downloader.OnGameNotFound += Downloader_GameNotFound;
+			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
+			downloader.OnStartDownload += Downloader_OnStartDownload;
+			downloader.OnStartFindingCovers += Downloader_OnStartFindingCovers;
+			downloader.Start();
 		}
 
 		private void UpdateStateLabels(int newState) {
@@ -39,15 +39,6 @@ namespace NARCover {
 					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Bold);
 				else
 					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Regular);
-		}
-
-		private void frmDownloading_Shown(object sender, EventArgs e) {
-			downloader.OnAPIException += Downloader_APIException;
-			downloader.OnGameNotFound += Downloader_GameNotFound;
-			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
-			downloader.OnStartDownload += Downloader_OnStartDownload;
-			downloader.OnStartFindingCovers += Downloader_OnStartFindingCovers;
-			downloader.Start();
 		}
 
 		private void Downloader_OnStartFindingCovers(int gamesFound) {
