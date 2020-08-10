@@ -41,7 +41,7 @@ namespace NARCover {
 		}
 
 		public void SearchAndDownloadGames() {
-			string[] names = Directory.GetFiles(romsPath);
+			string[] names = Directory.GetFiles(romsPath, "*", SearchOption.AllDirectories);
 			games = new List<string>();
 
 			foreach (string name in names)
