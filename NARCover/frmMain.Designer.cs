@@ -24,6 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -41,10 +42,9 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.txtSaveDir = new System.Windows.Forms.TextBox();
 			this.btnSaveDir = new System.Windows.Forms.Button();
+			this.cmbConsole = new System.Windows.Forms.ComboBox();
 			this.fbdROMsPath = new System.Windows.Forms.FolderBrowserDialog();
 			this.fbdSaveDir = new System.Windows.Forms.FolderBrowserDialog();
-			this.label6 = new System.Windows.Forms.Label();
-			this.cmbConsole = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
@@ -87,6 +87,19 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(393, 396);
 			this.tableLayoutPanel1.TabIndex = 1;
+			// 
+			// label6
+			// 
+			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(3, 90);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(94, 30);
+			this.label6.TabIndex = 13;
+			this.label6.Text = "Console:";
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label5
 			// 
@@ -327,23 +340,6 @@
 			this.btnSaveDir.UseVisualStyleBackColor = true;
 			this.btnSaveDir.Click += new System.EventHandler(this.btnSaveDir_Click);
 			// 
-			// fbdROMsPath
-			// 
-			this.fbdROMsPath.ShowNewFolderButton = false;
-			// 
-			// label6
-			// 
-			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(3, 90);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(94, 30);
-			this.label6.TabIndex = 13;
-			this.label6.Text = "Console:";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
 			// cmbConsole
 			// 
 			this.cmbConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -470,6 +466,10 @@
 			this.cmbConsole.Name = "cmbConsole";
 			this.cmbConsole.Size = new System.Drawing.Size(287, 21);
 			this.cmbConsole.TabIndex = 14;
+			// 
+			// fbdROMsPath
+			// 
+			this.fbdROMsPath.ShowNewFolderButton = false;
 			// 
 			// frmMain
 			// 

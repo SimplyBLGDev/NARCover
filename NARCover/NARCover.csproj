@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Downloader.cs" />
     <Compile Include="frmDownloading.cs">
       <SubType>Form</SubType>
     </Compile>

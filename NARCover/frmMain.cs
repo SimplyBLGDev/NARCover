@@ -9,11 +9,11 @@ namespace NARCover {
 
 		public frmMain() {
 			InitializeComponent();
-			PopulatePlatformCMB();
+			//PopulatePlatformCMB();
 		}
 
 		private void PopulatePlatformCMB() {
-			string responseString = Utils.Get("https://api.thegamesdb.net/v1/Platforms?apikey=" + Utils.PUBLICKEY);
+			string responseString = Utils.Get("https://api.thegamesdb.net/v1/Platforms?apikey=" + Downloader.PUBLICKEY); //TODO
 			JObject response = JObject.Parse(responseString);
 
 			if (response.Value<int>("code") != 200) { // No success code
@@ -33,7 +33,8 @@ namespace NARCover {
 			foreach (string type in lbPriority.Items)
 				priorityList.Add(type);
 			string saveDir = txtSaveDir.Text;
-			int console = platformIds[cmbConsole.Text];
+			//int console = platformIds[cmbConsole.Text];
+			int console = 0;
 
 			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console);
 			downloading.ShowDialog();
