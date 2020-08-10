@@ -7,10 +7,18 @@ using System.Windows.Forms;
 namespace NARCover {
 	public partial class frmMain : Form {
 		public Dictionary<string, int> platformIds = new Dictionary<string, int>();
+		public Dictionary<string, string> imageSourceQualities = new Dictionary<string, string>() {
+			{ "Original (Max quality)", "https://cdn.thegamesdb.net/images/original/" },
+			{ "Large", "https://cdn.thegamesdb.net/images/large/" },
+			{ "Medium", "https://cdn.thegamesdb.net/images/medium/" },
+			{ "Small", "https://cdn.thegamesdb.net/images/small/" },
+			{ "Thumb", "https://cdn.thegamesdb.net/images/thumb/" },
+			{ "Cropped center thumb", "https://cdn.thegamesdb.net/images/cropped_center_thumb/" }
+		};
 
 		public frmMain() {
 			InitializeComponent();
-			fbdSaveDir.SelectedPath = Application.StartupPath + "/images/";
+			fbdSaveDir.SelectedPath = Path.Combine(Application.StartupPath, "images");
 			txtSaveDir.Text = fbdSaveDir.SelectedPath;
 		}
 
@@ -22,6 +30,8 @@ namespace NARCover {
 					"contact me at https://github.com/SimplyBLGDev/NARCover.", "API Exception", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
 					Close();
 			}
+
+			PopulateQualityCMB();
 		}
 
 		private void PopulatePlatformCMB() {
@@ -31,6 +41,7 @@ namespace NARCover {
 			if (response.Value<int>("code") != 200) { // No success code
 				throw new APIException("API Request Error.", response.Value<int>("code"));
 			} else {
+				cmbConsole.Items.Clear();
 				foreach (JToken platform in response["data"]["platforms"].Children()) {
 					cmbConsole.Items.Add(platform.First.Value<string>("name"));
 					platformIds.Add(platform.First.Value<string>("name"), platform.First.Value<int>("id"));
@@ -38,6 +49,12 @@ namespace NARCover {
 			}
 
 			cmbConsole.SelectedIndex = 0;
+		}
+
+		private void PopulateQualityCMB() {
+			cmbQuality.Items.Clear();
+			foreach (string entry in imageSourceQualities.Keys)
+				cmbQuality.Items.Add(entry);
 		}
 
 		private void btnOK_Click(object sender, EventArgs e) {
@@ -65,8 +82,10 @@ namespace NARCover {
 				priorityList.Add(type);
 
 			int console = platformIds[cmbConsole.Text];
+			string quality = imageSourceQualities[cmbQuality.Text];
+			bool useFilename = rbROMName.Checked;
 
-			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console);
+			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console, quality, useFilename);
 			downloading.ShowDialog();
 		}
 
@@ -98,6 +117,8 @@ namespace NARCover {
 
 		private void btnPriorityDown_Click(object sender, EventArgs e) {
 			int index = lbPriority.SelectedIndex;
+			if (index == -1) // No selection
+				return;
 			if (index >= lbPriority.Items.Count-1)
 				return;
 

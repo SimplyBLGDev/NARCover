@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace NARCover {
 	public class Downloader {
 		public const string PUBLICKEY = "97b9ec2c3dd0573d0d03f832c98041320383bfbb7294452d19431bd728b5557a";
-		const string OGIMAGESBASEADDRESS = "https://cdn.thegamesdb.net/images/original/";
 
 		public /*heh*/ string publicKey {
 			get { return publicKeyOverride == null ? PUBLICKEY : publicKeyOverride; }
@@ -21,7 +20,9 @@ namespace NARCover {
 		public int consoleId;
 		public List<string> extensions;
 		public List<string> priorityImageTypes;
-		public List<string> games;
+		public List<string> gameFiles;
+		public string imgURLBase;
+		public bool useFileNameForImage;
 
 		public delegate void GameNotFoundDel(GameNotFoundException e);
 		public delegate void APIExceptionDel(APIException e);
@@ -42,19 +43,20 @@ namespace NARCover {
 
 		public void SearchAndDownloadGames() {
 			string[] names = Directory.GetFiles(romsPath, "*", SearchOption.AllDirectories);
-			games = new List<string>();
+			gameFiles = new List<string>();
 
 			foreach (string name in names)
 				if (extensions.Contains(Path.GetExtension(name)))
-					games.Add(Utils.GetSimplifiedGameName(Path.GetFileNameWithoutExtension(name)));
+					gameFiles.Add(Path.GetFileNameWithoutExtension(name));
 
 			// <Game code, GameInfo>
 			Dictionary<int, GameInfo> gamesData = new Dictionary<int, GameInfo>();
 
-			foreach (string game in games) {
-				int gameId = ProcessGame(game);
+			foreach (string game in gameFiles) {
+				string simplifiedName = Utils.GetSimplifiedGameName(game);
+				int gameId = ProcessGame(simplifiedName);
 				if (gameId != -1)
-					gamesData.Add(gameId, new GameInfo(game));
+					gamesData.Add(gameId, new GameInfo(game, simplifiedName));
 			}
 
 			OnStartFindingCovers(gamesData.Count);
@@ -62,6 +64,8 @@ namespace NARCover {
 
 			OnStartDownload(gamesData.Count);
 			DownloadImages(gamesData.Values.ToArray());
+
+			OnDone();
 		}
 
 		private int ProcessGame(string game) {
@@ -129,9 +133,10 @@ namespace NARCover {
 		void DownloadImages(GameInfo[] gameCodes) {
 			foreach (GameInfo game in gameCodes) {
 				using (var client = new WebClient()) {
-					Uri uri = new Uri(OGIMAGESBASEADDRESS + game.imageAddress);
-					client.DownloadFile(uri, saveDir + game.name + Path.GetExtension(game.imageAddress));
-					OnImageDownloaded(game, saveDir + game.name + Path.GetExtension(game.imageAddress));
+					Uri uri = new Uri(imgURLBase + game.imageAddress);
+					string _name = useFileNameForImage ? game.filename : game.filename;
+					client.DownloadFile(uri, saveDir + _name + Path.GetExtension(game.imageAddress));
+					OnImageDownloaded(game, saveDir + _name + Path.GetExtension(game.imageAddress));
 				}
 			}
 		}

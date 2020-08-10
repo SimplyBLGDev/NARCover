@@ -8,7 +8,7 @@ namespace NARCover {
 	public partial class frmDownloading : Form {
 		Downloader downloader;
 
-		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir, int console) {
+		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir, int console, string imgURLBase, bool useFilename) {
 			InitializeComponent();
 			UpdateStateLabels(0);
 
@@ -18,6 +18,8 @@ namespace NARCover {
 			downloader.priorityImageTypes = priorityImageTypes;
 			downloader.consoleId = console;
 			downloader.saveDir = saveDir;
+			downloader.imgURLBase = imgURLBase;
+			downloader.useFileNameForImage = useFilename;
 		}
 
 		private void frmDownloading_Shown(object sender, EventArgs e) {
@@ -31,7 +33,7 @@ namespace NARCover {
 		}
 
 		private void btnExportNotFound_Click(object sender, EventArgs e) {
-			string path = Application.StartupPath + "Games Not Found_" + DateTime.Now.ToString("u") + ".txt";
+			string path = Path.Combine(Application.StartupPath, "Games Not Found_" + DateTime.Now.ToString("u") + ".txt");
 			string export = "Games not found:\n";
 
 			foreach (string entry in lvMissingGames.Items)

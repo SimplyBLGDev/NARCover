@@ -60,10 +60,12 @@ namespace NARCover {
 
 	public class GameInfo {
 		public string name;
+		public string filename;
 		public string imageAddress;
 
-		public GameInfo(string name) {
+		public GameInfo(string name, string filename) {
 			this.name = name;
+			this.filename = filename;
 		}
 	}
 
