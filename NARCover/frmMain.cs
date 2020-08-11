@@ -131,5 +131,17 @@ namespace NARCover {
 
 			lbPriority.SelectedIndex++;
 		}
+
+		private void chkUseFolderAsName_CheckedChanged(object sender, EventArgs e) {
+			chkSubdir.Enabled = !chkUseFolderAsName.Checked;
+			chkSubdir.Checked = false;
+			txtExtensions.Enabled = !chkUseFolderAsName.Checked;
+			lblExtensions.Enabled = !chkUseFolderAsName.Checked;
+		}
+
+		private void chkSubdir_CheckedChanged(object sender, EventArgs e) {
+			chkUseFolderAsName.Enabled = !chkSubdir.Checked;
+			chkUseFolderAsName.Checked = false;
+		}
 	}
 }

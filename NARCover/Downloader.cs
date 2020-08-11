@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Authentication.ExtendedProtection;
 using System.Threading.Tasks;
 
 namespace NARCover {
@@ -16,6 +17,8 @@ namespace NARCover {
 		}
 		string publicKeyOverride;
 		public string romsPath = "";
+		public bool searchSubdirs;
+		public bool useFolderName;
 		public string saveDir = "";
 		public int consoleId;
 		public List<string> extensions;
@@ -41,13 +44,23 @@ namespace NARCover {
 			Task.Run(() => SearchAndDownloadGames());
 		}
 
-		public void SearchAndDownloadGames() {
-			string[] names = Directory.GetFiles(romsPath, "*", SearchOption.AllDirectories);
-			gameFiles = new List<string>();
+		private void SearchAndDownloadGames() {
+			Dictionary<int, GameInfo> gamesData = SearchGames();
+			DownloadGames(gamesData);
+		}
 
-			foreach (string name in names)
-				if (extensions.Contains(Path.GetExtension(name)))
-					gameFiles.Add(Path.GetFileNameWithoutExtension(name));
+		private Dictionary<int, GameInfo> SearchGames() {
+			if (useFolderName) {
+				gameFiles = new List<string>(Directory.GetDirectories(romsPath));
+			} else {
+				SearchOption searchOption = searchSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+				string[]names = Directory.GetFiles(romsPath, "*", searchOption);
+				gameFiles = new List<string>();
+
+				foreach (string name in names)
+					if (extensions.Contains(Path.GetExtension(name)))
+						gameFiles.Add(Path.GetFileNameWithoutExtension(name));
+			}
 
 			// <Game code, GameInfo>
 			Dictionary<int, GameInfo> gamesData = new Dictionary<int, GameInfo>();
@@ -59,6 +72,10 @@ namespace NARCover {
 					gamesData.Add(gameId, new GameInfo(game, simplifiedName));
 			}
 
+			return gamesData;
+		}
+
+		private void DownloadGames(Dictionary<int, GameInfo> gamesData) {
 			OnStartFindingCovers(gamesData.Count);
 			FindCovers(gamesData);
 
