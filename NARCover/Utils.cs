@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace NARCover {
 	public class Utils {
@@ -31,6 +33,10 @@ namespace NARCover {
 					case '>': chevrons--; break;
 				}
 			} // Remove anything between parentheses, brackets or chevrons
+
+			foreach (Match m in Regex.Matches(r, " ?(([vV]ersion)|([vV]er)|[vV]) ?[0-9,\\-._]{1,}"))
+				if (m.Success)
+					r = r.Replace(m.Value, ""); // Remove version numbers found by the RegEx
 
 			for (int i = 0; i < r.Length - 1; i++) {
 				// Titles starting with 'The' are usually rewritten with ', The' at the end to better sort their names, this re-inserts that ending
