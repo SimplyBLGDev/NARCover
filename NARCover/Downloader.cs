@@ -50,12 +50,16 @@ namespace NARCover {
 		}
 
 		private Dictionary<int, GameInfo> SearchGames() {
+			gameFiles = new List<string>();
+
 			if (useFolderName) {
-				gameFiles = new List<string>(Directory.GetDirectories(romsPath));
+				string[] names = Directory.GetDirectories(romsPath);
+
+				foreach (string name in names)
+					gameFiles.Add(Path.GetFileName(name)); // Folder name excluding path
 			} else {
 				SearchOption searchOption = searchSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-				string[]names = Directory.GetFiles(romsPath, "*", searchOption);
-				gameFiles = new List<string>();
+				string[] names = Directory.GetFiles(romsPath, "*", searchOption);
 
 				foreach (string name in names)
 					if (extensions.Contains(Path.GetExtension(name)))
@@ -76,11 +80,13 @@ namespace NARCover {
 		}
 
 		private void DownloadGames(Dictionary<int, GameInfo> gamesData) {
-			OnStartFindingCovers(gamesData.Count);
-			FindCovers(gamesData);
+			if (gamesData.Count > 0) {
+				OnStartFindingCovers(gamesData.Count);
+				FindCovers(gamesData);
 
-			OnStartDownload(gamesData.Count);
-			DownloadImages(gamesData.Values.ToArray());
+				OnStartDownload(gamesData.Count);
+				DownloadImages(gamesData.Values.ToArray());
+			}
 
 			OnDone();
 		}

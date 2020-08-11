@@ -8,7 +8,9 @@ namespace NARCover {
 	public partial class frmDownloading : Form {
 		Downloader downloader;
 
-		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir, int console, string imgURLBase, bool useFilename) {
+		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir, int console,
+			string imgURLBase, bool useFilename, bool searchSubdirs, bool useFolderName) {
+
 			InitializeComponent();
 			UpdateStateLabels(0);
 
@@ -20,6 +22,8 @@ namespace NARCover {
 			downloader.saveDir = saveDir;
 			downloader.imgURLBase = imgURLBase;
 			downloader.useFileNameForImage = useFilename;
+			downloader.searchSubdirs = searchSubdirs;
+			downloader.useFolderName = useFolderName;
 		}
 
 		private void frmDownloading_Shown(object sender, EventArgs e) {
@@ -46,8 +50,10 @@ namespace NARCover {
 		}
 
 		private void Downloader_OnDone() {
-			MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			btnExportNotFound.Enabled = true;
+			Invoke(new MethodInvoker(() => {
+				MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				btnExportNotFound.Enabled = true;
+			}));
 		}
 
 		private void UpdateStateLabels(int newState) {

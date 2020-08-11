@@ -87,8 +87,10 @@ namespace NARCover {
 			int console = platformIds[cmbConsole.Text];
 			string quality = imageSourceQualities[cmbQuality.Text];
 			bool useFilename = rbROMName.Checked;
+			bool subdirs = chkSubdir.Checked;
+			bool useFolderName = chkUseFolderAsName.Checked;
 
-			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console, quality, useFilename);
+			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console, quality, useFilename, subdirs, useFolderName);
 			downloading.ShowDialog();
 		}
 

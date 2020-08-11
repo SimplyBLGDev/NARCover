@@ -30,13 +30,13 @@
 			this.pbImagePreview = new System.Windows.Forms.PictureBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.lblState0 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.lblState1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.lblState2 = new System.Windows.Forms.Label();
-			this.lvMissingGames = new System.Windows.Forms.ListView();
+			this.label2 = new System.Windows.Forms.Label();
+			this.lblState1 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.lblState0 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
+			this.lvMissingGames = new System.Windows.Forms.ListView();
 			this.btnExportNotFound = new System.Windows.Forms.Button();
 			this.lblExportStatus = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pbImagePreview)).BeginInit();
@@ -144,45 +144,18 @@
 			this.tableLayoutPanel2.Size = new System.Drawing.Size(399, 30);
 			this.tableLayoutPanel2.TabIndex = 2;
 			// 
-			// lblState0
+			// lblState2
 			// 
-			this.lblState0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.lblState2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblState0.AutoSize = true;
-			this.lblState0.Location = new System.Drawing.Point(3, 0);
-			this.lblState0.Name = "lblState0";
-			this.lblState0.Size = new System.Drawing.Size(113, 30);
-			this.lblState0.TabIndex = 0;
-			this.lblState0.Text = "Finding game titles";
-			this.lblState0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// label1
-			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(122, 0);
-			this.label1.MinimumSize = new System.Drawing.Size(10, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(13, 30);
-			this.label1.TabIndex = 1;
-			this.label1.Text = ">";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// lblState1
-			// 
-			this.lblState1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblState1.AutoSize = true;
-			this.lblState1.Location = new System.Drawing.Point(141, 0);
-			this.lblState1.Name = "lblState1";
-			this.lblState1.Size = new System.Drawing.Size(113, 30);
-			this.lblState1.TabIndex = 2;
-			this.lblState1.Text = "Finding images URLs";
-			this.lblState1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lblState2.AutoSize = true;
+			this.lblState2.Location = new System.Drawing.Point(279, 0);
+			this.lblState2.Name = "lblState2";
+			this.lblState2.Size = new System.Drawing.Size(117, 30);
+			this.lblState2.TabIndex = 4;
+			this.lblState2.Text = "Downloading images";
+			this.lblState2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label2
 			// 
@@ -198,32 +171,45 @@
 			this.label2.Text = ">";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// lblState2
+			// lblState1
 			// 
-			this.lblState2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.lblState1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblState2.AutoSize = true;
-			this.lblState2.Location = new System.Drawing.Point(279, 0);
-			this.lblState2.Name = "lblState2";
-			this.lblState2.Size = new System.Drawing.Size(117, 30);
-			this.lblState2.TabIndex = 4;
-			this.lblState2.Text = "Downloading images";
-			this.lblState2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lblState1.AutoSize = true;
+			this.lblState1.Location = new System.Drawing.Point(141, 0);
+			this.lblState1.Name = "lblState1";
+			this.lblState1.Size = new System.Drawing.Size(113, 30);
+			this.lblState1.TabIndex = 2;
+			this.lblState1.Text = "Finding images URLs";
+			this.lblState1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// lvMissingGames
+			// label1
 			// 
-			this.lvMissingGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel1.SetColumnSpan(this.lvMissingGames, 2);
-			this.lvMissingGames.HideSelection = false;
-			this.lvMissingGames.Location = new System.Drawing.Point(3, 63);
-			this.lvMissingGames.Name = "lvMissingGames";
-			this.lvMissingGames.Size = new System.Drawing.Size(174, 268);
-			this.lvMissingGames.TabIndex = 3;
-			this.lvMissingGames.UseCompatibleStateImageBehavior = false;
-			this.lvMissingGames.View = System.Windows.Forms.View.List;
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(122, 0);
+			this.label1.MinimumSize = new System.Drawing.Size(10, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(13, 30);
+			this.label1.TabIndex = 1;
+			this.label1.Text = ">";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblState0
+			// 
+			this.lblState0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblState0.AutoSize = true;
+			this.lblState0.Location = new System.Drawing.Point(3, 0);
+			this.lblState0.Name = "lblState0";
+			this.lblState0.Size = new System.Drawing.Size(113, 30);
+			this.lblState0.TabIndex = 0;
+			this.lblState0.Text = "Finding game titles";
+			this.lblState0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label3
 			// 
@@ -239,6 +225,23 @@
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Games not found:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// lvMissingGames
+			// 
+			this.lvMissingGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tableLayoutPanel1.SetColumnSpan(this.lvMissingGames, 2);
+			this.lvMissingGames.FullRowSelect = true;
+			this.lvMissingGames.HideSelection = false;
+			this.lvMissingGames.LabelWrap = false;
+			this.lvMissingGames.Location = new System.Drawing.Point(3, 63);
+			this.lvMissingGames.MultiSelect = false;
+			this.lvMissingGames.Name = "lvMissingGames";
+			this.lvMissingGames.Size = new System.Drawing.Size(174, 268);
+			this.lvMissingGames.TabIndex = 3;
+			this.lvMissingGames.UseCompatibleStateImageBehavior = false;
+			this.lvMissingGames.View = System.Windows.Forms.View.List;
 			// 
 			// btnExportNotFound
 			// 
