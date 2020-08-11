@@ -7,6 +7,7 @@ using System.Windows.Forms;
 namespace NARCover {
 	public partial class frmDownloading : Form {
 		Downloader downloader;
+		bool done = false;
 
 		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir, int console,
 			string imgURLBase, bool useFilename, bool searchSubdirs, bool useFolderName) {
@@ -24,9 +25,7 @@ namespace NARCover {
 			downloader.useFileNameForImage = useFilename;
 			downloader.searchSubdirs = searchSubdirs;
 			downloader.useFolderName = useFolderName;
-		}
 
-		private void frmDownloading_Shown(object sender, EventArgs e) {
 			downloader.OnAPIException += Downloader_APIException;
 			downloader.OnGameNotFound += Downloader_GameNotFound;
 			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
@@ -34,6 +33,9 @@ namespace NARCover {
 			downloader.OnGameFound += Downloader_OnGameFound;
 			downloader.OnStartFindingCovers += Downloader_OnStartFindingCovers;
 			downloader.OnDone += Downloader_OnDone;
+		}
+
+		private void frmDownloading_Shown(object sender, EventArgs e) {
 			downloader.Start();
 		}
 
@@ -54,6 +56,7 @@ namespace NARCover {
 			Invoke(new MethodInvoker(() => {
 				MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				btnExportNotFound.Enabled = true;
+				done = true;
 			}));
 		}
 
@@ -113,6 +116,10 @@ namespace NARCover {
 				case DialogResult.OK:
 					break;
 			}
+		}
+
+		private void frmDownloading_FormClosing(object sender, FormClosingEventArgs e) {
+			DialogResult = DialogResult.OK;
 		}
 	}
 }

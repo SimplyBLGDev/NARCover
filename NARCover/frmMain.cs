@@ -34,6 +34,51 @@ namespace NARCover {
 			PopulateQualityCMB();
 		}
 
+		private void OpenDownloader() {
+			if (!ValidateUserValues())
+				return;
+
+			string romsPath = txtROMsPath.Text;
+			List<string> extensions = new List<string>(txtExtensions.Text.Split(';'));
+			List<string> priorityList = new List<string>();
+			string saveDir = txtSaveDir.Text;
+			int console = platformIds[cmbConsole.Text];
+			string quality = imageSourceQualities[cmbQuality.Text];
+			bool useFilename = rbROMName.Checked;
+			bool subdirs = chkSubdir.Checked;
+			bool useFolderName = chkUseFolderAsName.Checked;
+
+			foreach (string type in lbPriority.Items)
+				priorityList.Add(type);
+
+			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console, quality, useFilename, subdirs, useFolderName);
+			Hide();
+			if (downloading.ShowDialog() == DialogResult.OK)
+				Close();
+			else
+				Show();
+		}
+
+		private bool ValidateUserValues() {
+			string errorMsg = "";
+			if (!platformIds.ContainsKey(cmbConsole.Text))
+				errorMsg += "Invalid console, pick one from the dropdown list.\n";
+			else if (!Directory.Exists(txtROMsPath.Text))
+				errorMsg += "ROMs Path invalid.\n";
+			else if (!Directory.Exists(txtSaveDir.Text))
+				errorMsg += "Images' save dir invalid.\n";
+			else if (txtExtensions.Text.Split(';').Length == 0)
+				errorMsg += "Select at least one file extension.\n";
+			else if (!imageSourceQualities.ContainsKey(cmbQuality.Text))
+				errorMsg += "Quality not valid.\n";
+
+			if (errorMsg != "") {
+				MessageBox.Show(errorMsg.Trim(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+			return true;
+		}
+
 		private void PopulatePlatformCMB() {
 			string responseString = Utils.Get("https://api.thegamesdb.net/v1/Platforms?apikey=" + Downloader.PUBLICKEY); //TODO
 			JObject response = JObject.Parse(responseString);
@@ -59,39 +104,7 @@ namespace NARCover {
 		}
 
 		private void btnOK_Click(object sender, EventArgs e) {
-			string errorMsg = "";
-			if (!platformIds.ContainsKey(cmbConsole.Text))
-				errorMsg += "Invalid console, pick one from the dropdown list.\n";
-			else if (!Directory.Exists(txtROMsPath.Text))
-				errorMsg += "ROMs Path invalid.\n";
-			else if (!Directory.Exists(txtSaveDir.Text))
-				errorMsg += "Images' save dir invalid.\n";
-			else if (txtExtensions.Text.Split(';').Length == 0)
-				errorMsg += "Select at least one file extension.\n";
-			else if (!imageSourceQualities.ContainsKey(cmbQuality.Text))
-				errorMsg += "Quality not valid.\n";
-
-			if (errorMsg != "") {
-				MessageBox.Show(errorMsg.Trim(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-
-			string romsPath = txtROMsPath.Text;
-			List<string> extensions = new List<string>(txtExtensions.Text.Split(';'));
-			List<string> priorityList = new List<string>();
-			string saveDir = txtSaveDir.Text;
-
-			foreach (string type in lbPriority.Items)
-				priorityList.Add(type);
-
-			int console = platformIds[cmbConsole.Text];
-			string quality = imageSourceQualities[cmbQuality.Text];
-			bool useFilename = rbROMName.Checked;
-			bool subdirs = chkSubdir.Checked;
-			bool useFolderName = chkUseFolderAsName.Checked;
-
-			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console, quality, useFilename, subdirs, useFolderName);
-			downloading.ShowDialog();
+			OpenDownloader();
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e) {

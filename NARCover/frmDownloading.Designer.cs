@@ -50,10 +50,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblCurrentDownload.AutoEllipsis = true;
 			this.lblCurrentDownload.Cursor = System.Windows.Forms.Cursors.Arrow;
-			this.lblCurrentDownload.Location = new System.Drawing.Point(9, 380);
+			this.lblCurrentDownload.Location = new System.Drawing.Point(9, 360);
 			this.lblCurrentDownload.Name = "lblCurrentDownload";
-			this.lblCurrentDownload.Size = new System.Drawing.Size(399, 13);
-			this.lblCurrentDownload.TabIndex = 3;
+			this.lblCurrentDownload.Size = new System.Drawing.Size(402, 13);
+			this.lblCurrentDownload.TabIndex = 2;
 			this.lblCurrentDownload.Text = "-";
 			this.lblCurrentDownload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -61,11 +61,11 @@
 			// 
 			this.pbProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pbProgress.Location = new System.Drawing.Point(9, 396);
+			this.pbProgress.Location = new System.Drawing.Point(9, 376);
 			this.pbProgress.Maximum = 10;
 			this.pbProgress.Name = "pbProgress";
-			this.pbProgress.Size = new System.Drawing.Size(399, 23);
-			this.pbProgress.TabIndex = 2;
+			this.pbProgress.Size = new System.Drawing.Size(402, 23);
+			this.pbProgress.TabIndex = 0;
 			// 
 			// lblPreviewGameName
 			// 
@@ -73,10 +73,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblPreviewGameName.AutoEllipsis = true;
-			this.lblPreviewGameName.Location = new System.Drawing.Point(183, 334);
+			this.lblPreviewGameName.Location = new System.Drawing.Point(183, 317);
+			this.lblPreviewGameName.Margin = new System.Windows.Forms.Padding(3);
 			this.lblPreviewGameName.Name = "lblPreviewGameName";
-			this.lblPreviewGameName.Size = new System.Drawing.Size(213, 30);
-			this.lblPreviewGameName.TabIndex = 1;
+			this.lblPreviewGameName.Size = new System.Drawing.Size(216, 24);
+			this.lblPreviewGameName.TabIndex = 5;
 			this.lblPreviewGameName.Text = "-";
 			this.lblPreviewGameName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
@@ -88,7 +89,7 @@
 			this.pbImagePreview.Location = new System.Drawing.Point(183, 33);
 			this.pbImagePreview.Name = "pbImagePreview";
 			this.tableLayoutPanel1.SetRowSpan(this.pbImagePreview, 2);
-			this.pbImagePreview.Size = new System.Drawing.Size(213, 298);
+			this.pbImagePreview.Size = new System.Drawing.Size(216, 278);
 			this.pbImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pbImagePreview.TabIndex = 0;
 			this.pbImagePreview.TabStop = false;
@@ -116,8 +117,8 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(399, 364);
-			this.tableLayoutPanel1.TabIndex = 4;
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(402, 344);
+			this.tableLayoutPanel1.TabIndex = 1;
 			// 
 			// tableLayoutPanel2
 			// 
@@ -141,8 +142,8 @@
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 1;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(399, 30);
-			this.tableLayoutPanel2.TabIndex = 2;
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(402, 30);
+			this.tableLayoutPanel2.TabIndex = 0;
 			// 
 			// lblState2
 			// 
@@ -150,9 +151,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblState2.AutoSize = true;
-			this.lblState2.Location = new System.Drawing.Point(279, 0);
+			this.lblState2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblState2.Location = new System.Drawing.Point(283, 0);
 			this.lblState2.Name = "lblState2";
-			this.lblState2.Size = new System.Drawing.Size(117, 30);
+			this.lblState2.Size = new System.Drawing.Size(116, 30);
 			this.lblState2.TabIndex = 4;
 			this.lblState2.Text = "Downloading images";
 			this.lblState2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -163,10 +165,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(260, 0);
+			this.label2.Location = new System.Drawing.Point(263, 0);
 			this.label2.MinimumSize = new System.Drawing.Size(10, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(13, 30);
+			this.label2.Size = new System.Drawing.Size(14, 30);
 			this.label2.TabIndex = 3;
 			this.label2.Text = ">";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -177,9 +179,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblState1.AutoSize = true;
-			this.lblState1.Location = new System.Drawing.Point(141, 0);
+			this.lblState1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblState1.Location = new System.Drawing.Point(143, 0);
 			this.lblState1.Name = "lblState1";
-			this.lblState1.Size = new System.Drawing.Size(113, 30);
+			this.lblState1.Size = new System.Drawing.Size(114, 30);
 			this.lblState1.TabIndex = 2;
 			this.lblState1.Text = "Finding images URLs";
 			this.lblState1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -190,10 +193,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(122, 0);
+			this.label1.Location = new System.Drawing.Point(123, 0);
 			this.label1.MinimumSize = new System.Drawing.Size(10, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(13, 30);
+			this.label1.Size = new System.Drawing.Size(14, 30);
 			this.label1.TabIndex = 1;
 			this.label1.Text = ">";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -204,9 +207,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblState0.AutoSize = true;
+			this.lblState0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblState0.Location = new System.Drawing.Point(3, 0);
 			this.lblState0.Name = "lblState0";
-			this.lblState0.Size = new System.Drawing.Size(113, 30);
+			this.lblState0.Size = new System.Drawing.Size(114, 30);
 			this.lblState0.TabIndex = 0;
 			this.lblState0.Text = "Finding game titles";
 			this.lblState0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -219,10 +223,11 @@
 			this.label3.AutoEllipsis = true;
 			this.tableLayoutPanel1.SetColumnSpan(this.label3, 2);
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.Location = new System.Drawing.Point(3, 30);
+			this.label3.Location = new System.Drawing.Point(3, 33);
+			this.label3.Margin = new System.Windows.Forms.Padding(3);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(174, 30);
-			this.label3.TabIndex = 4;
+			this.label3.Size = new System.Drawing.Size(174, 24);
+			this.label3.TabIndex = 1;
 			this.label3.Text = "Games not found:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -238,10 +243,10 @@
 			this.lvMissingGames.Location = new System.Drawing.Point(3, 63);
 			this.lvMissingGames.MultiSelect = false;
 			this.lvMissingGames.Name = "lvMissingGames";
-			this.lvMissingGames.Size = new System.Drawing.Size(174, 268);
-			this.lvMissingGames.TabIndex = 3;
+			this.lvMissingGames.Size = new System.Drawing.Size(174, 248);
+			this.lvMissingGames.TabIndex = 2;
 			this.lvMissingGames.UseCompatibleStateImageBehavior = false;
-			this.lvMissingGames.View = System.Windows.Forms.View.List;
+			this.lvMissingGames.View = System.Windows.Forms.View.Details;
 			// 
 			// btnExportNotFound
 			// 
@@ -249,10 +254,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnExportNotFound.Enabled = false;
-			this.btnExportNotFound.Location = new System.Drawing.Point(3, 337);
+			this.btnExportNotFound.Location = new System.Drawing.Point(3, 317);
 			this.btnExportNotFound.Name = "btnExportNotFound";
 			this.btnExportNotFound.Size = new System.Drawing.Size(84, 24);
-			this.btnExportNotFound.TabIndex = 5;
+			this.btnExportNotFound.TabIndex = 3;
 			this.btnExportNotFound.Text = "Save as .txt";
 			this.btnExportNotFound.UseVisualStyleBackColor = true;
 			this.btnExportNotFound.Click += new System.EventHandler(this.btnExportNotFound_Click);
@@ -263,25 +268,26 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblExportStatus.AutoSize = true;
-			this.lblExportStatus.Location = new System.Drawing.Point(93, 337);
+			this.lblExportStatus.Location = new System.Drawing.Point(93, 317);
 			this.lblExportStatus.Margin = new System.Windows.Forms.Padding(3);
 			this.lblExportStatus.Name = "lblExportStatus";
 			this.lblExportStatus.Size = new System.Drawing.Size(84, 24);
-			this.lblExportStatus.TabIndex = 6;
+			this.lblExportStatus.TabIndex = 4;
 			this.lblExportStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// frmDownloading
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(420, 431);
+			this.ClientSize = new System.Drawing.Size(423, 411);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.lblCurrentDownload);
 			this.Controls.Add(this.pbProgress);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MinimumSize = new System.Drawing.Size(300, 400);
+			this.MinimumSize = new System.Drawing.Size(370, 400);
 			this.Name = "frmDownloading";
 			this.Text = "Downloading...";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDownloading_FormClosing);
 			this.Shown += new System.EventHandler(this.frmDownloading_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.pbImagePreview)).EndInit();
 			this.tableLayoutPanel1.ResumeLayout(false);
