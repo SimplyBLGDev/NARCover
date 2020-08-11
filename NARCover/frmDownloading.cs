@@ -31,6 +31,7 @@ namespace NARCover {
 			downloader.OnGameNotFound += Downloader_GameNotFound;
 			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
 			downloader.OnStartDownload += Downloader_OnStartDownload;
+			downloader.OnGameFound += Downloader_OnGameFound;
 			downloader.OnStartFindingCovers += Downloader_OnStartFindingCovers;
 			downloader.OnDone += Downloader_OnDone;
 			downloader.Start();
@@ -72,6 +73,12 @@ namespace NARCover {
 		private void Downloader_OnStartFindingCovers(int gamesFound) {
 			Invoke(new MethodInvoker(() => {
 				UpdateStateLabels(1);
+			}));
+		}
+
+		private void Downloader_OnGameFound(GameInfo gameFound) {
+			Invoke(new MethodInvoker(() => {
+				lblCurrentDownload.Text = "Found game: " + gameFound.name;
 			}));
 		}
 

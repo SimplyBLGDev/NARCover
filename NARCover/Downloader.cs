@@ -31,12 +31,14 @@ namespace NARCover {
 		public delegate void APIExceptionDel(APIException e);
 		public delegate void GameInfoDel(GameInfo game, string imagePath);
 		public delegate void StartDownloadingDel(int gamesFound);
+		public delegate void GameFoundDel(GameInfo gameFound);
 		public delegate void StartFindingCoversDel(int gamesFound);
 		public delegate void Done();
 		public event GameNotFoundDel OnGameNotFound;
 		public event APIExceptionDel OnAPIException;
 		public event GameInfoDel OnImageDownloaded;
 		public event StartFindingCoversDel OnStartFindingCovers;
+		public event GameFoundDel OnGameFound;
 		public event StartDownloadingDel OnStartDownload;
 		public event Done OnDone;
 
@@ -72,8 +74,11 @@ namespace NARCover {
 			foreach (string game in gameFiles) {
 				string simplifiedName = Utils.GetSimplifiedGameName(game);
 				int gameId = ProcessGame(simplifiedName);
-				if (gameId != -1)
-					gamesData.Add(gameId, new GameInfo(game, simplifiedName));
+				if (gameId != -1) {
+					GameInfo gameInfo = new GameInfo(game, simplifiedName);
+					gamesData.Add(gameId, gameInfo);
+					OnGameFound(gameInfo);
+				}
 			}
 
 			return gamesData;
@@ -134,6 +139,12 @@ namespace NARCover {
 			int[] keys = gameCodes.Keys.ToArray(); // Avoid on-the-fly conflicts due to dictionary modification
 			foreach (int code in keys) {
 				var availableGameImages = response["data"]["images"][code.ToString()];
+
+				if (availableGameImages == null) {
+					OnGameNotFound(new GameNotFoundException("Game not found.", gameCodes[code].name));
+					gameCodes.Remove(code);
+					continue;
+				}
 
 				foreach (string imageType in priorityImageTypes) {
 					for (int i = 0; i < availableGameImages.Count(); i++)
