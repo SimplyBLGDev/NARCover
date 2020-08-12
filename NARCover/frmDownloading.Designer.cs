@@ -246,7 +246,7 @@
 			this.lvMissingGames.Size = new System.Drawing.Size(174, 248);
 			this.lvMissingGames.TabIndex = 2;
 			this.lvMissingGames.UseCompatibleStateImageBehavior = false;
-			this.lvMissingGames.View = System.Windows.Forms.View.Details;
+			this.lvMissingGames.View = System.Windows.Forms.View.List;
 			// 
 			// btnExportNotFound
 			// 

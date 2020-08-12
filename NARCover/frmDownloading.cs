@@ -8,31 +8,28 @@ namespace NARCover {
 	public partial class frmDownloading : Form {
 		Downloader downloader;
 		bool done = false;
+		List<string> missingGames;
 
-		public frmDownloading(string romsPath, List<string> extensions, List<string> priorityImageTypes, string saveDir, int console,
-			string imgURLBase, bool useFilename, bool searchSubdirs, bool useFolderName) {
+		public frmDownloading(string[] files, List<string> priorityImageTypes, string saveDir, int console,
+			string imgURLBase, bool useFilename) {
 
 			InitializeComponent();
+			missingGames = new List<string>();
 			UpdateStateLabels(0);
 
 			downloader = new Downloader();
-			downloader.romsPath = romsPath;
-			downloader.extensions = extensions;
+			downloader.gameFiles = new List<string>(files);
 			downloader.priorityImageTypes = priorityImageTypes;
 			downloader.consoleId = console;
 			downloader.saveDir = saveDir;
 			downloader.imgURLBase = imgURLBase;
 			downloader.useFileNameForImage = useFilename;
-			downloader.searchSubdirs = searchSubdirs;
-			downloader.useFolderName = useFolderName;
 
-			downloader.OnAPIException += Downloader_APIException;
-			downloader.OnGameNotFound += Downloader_GameNotFound;
-			downloader.OnImageDownloaded += Downloader_ImageDownloaded;
-			downloader.OnStartDownload += Downloader_OnStartDownload;
-			downloader.OnGameFound += Downloader_OnGameFound;
-			downloader.OnStartFindingCovers += Downloader_OnStartFindingCovers;
-			downloader.OnDone += Downloader_OnDone;
+			downloader.Update += Downloader_Update;
+		}
+
+		private void Downloader_Update(Downloader.DownloaderUpdateInfo info) {
+			throw new NotImplementedException();
 		}
 
 		private void frmDownloading_Shown(object sender, EventArgs e) {
@@ -40,13 +37,13 @@ namespace NARCover {
 		}
 
 		private void btnExportNotFound_Click(object sender, EventArgs e) {
-			string path = Path.Combine(Application.StartupPath, "Games Not Found_" + DateTime.Now.ToString("u") + ".txt");
+			string path = Path.Combine(Application.StartupPath, "'Games Not Found_" + DateTime.Now.ToString("u") + ".txt'");
 			string export = "Games not found:\n";
 
-			foreach (string entry in lvMissingGames.Items)
+			foreach (string entry in missingGames)
 				export += "\n" + entry;
 
-			File.WriteAllText(path, export);
+			File.WriteAllText(@path, export);
 
 			lblExportStatus.Text = "Games Not Found list written to " + path;
 			btnExportNotFound.Enabled = false;
@@ -103,6 +100,7 @@ namespace NARCover {
 
 		private void Downloader_GameNotFound(GameNotFoundException e) {
 			Invoke(new MethodInvoker(() => {
+				missingGames.Add(e.game);
 				lvMissingGames.Items.Add(e.game);
 			}));
 		}

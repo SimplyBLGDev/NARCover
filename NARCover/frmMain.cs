@@ -16,6 +16,14 @@ namespace NARCover {
 			{ "Cropped center thumb", "https://cdn.thegamesdb.net/images/cropped_center_thumb/" }
 		};
 
+		string quality { get { return imageSourceQualities[cmbQuality.Text]; } }
+		bool useFolderName { get { return chkUseFolderAsName.Checked; } }
+		int console { get { return platformIds[cmbConsole.Text]; } }
+		bool useFilename { get { return rbROMName.Checked; } }
+		string romsPath { get { return txtROMsPath.Text; } }
+		string saveDir { get { return txtSaveDir.Text; } }
+		bool subdirs { get { return chkSubdir.Checked; } }
+
 		public frmMain() {
 			InitializeComponent();
 			fbdSaveDir.SelectedPath = Path.Combine(Application.StartupPath, "images");
@@ -38,25 +46,25 @@ namespace NARCover {
 			if (!ValidateUserValues())
 				return;
 
-			string romsPath = txtROMsPath.Text;
-			List<string> extensions = new List<string>(txtExtensions.Text.Split(';'));
-			List<string> priorityList = new List<string>();
-			string saveDir = txtSaveDir.Text;
-			int console = platformIds[cmbConsole.Text];
-			string quality = imageSourceQualities[cmbQuality.Text];
-			bool useFilename = rbROMName.Checked;
-			bool subdirs = chkSubdir.Checked;
-			bool useFolderName = chkUseFolderAsName.Checked;
+			string[] validFiles = Utils.GetValidFiles(romsPath, GetExtensions(), useFolderName, subdirs);
 
-			foreach (string type in lbPriority.Items)
-				priorityList.Add(type);
-
-			frmDownloading downloading = new frmDownloading(romsPath, extensions, priorityList, saveDir, console, quality, useFilename, subdirs, useFolderName);
+			frmDownloading downloading = new frmDownloading(validFiles, GetPriorityList(), saveDir, console, quality, useFilename);
 			Hide();
 			if (downloading.ShowDialog() == DialogResult.OK)
 				Close();
 			else
 				Show();
+		}
+
+		List<string> GetExtensions() {
+			return new List<string>(txtExtensions.Text.Split(';'));
+		}
+
+		List<string> GetPriorityList() {
+			List<string> r = new List<string>();
+			foreach (string entry in lbPriority.Items)
+				r.Add(entry);
+			return r;
 		}
 
 		private bool ValidateUserValues() {

@@ -11,14 +11,14 @@ namespace NARCover {
 	public class Downloader {
 		public const string PUBLICKEY = "97b9ec2c3dd0573d0d03f832c98041320383bfbb7294452d19431bd728b5557a";
 
+		public delegate void DownloaderUpdate(DownloaderUpdateInfo info);
+		public event DownloaderUpdate Update;
+
 		public /*heh*/ string publicKey {
 			get { return publicKeyOverride == null ? PUBLICKEY : publicKeyOverride; }
 			set { publicKeyOverride = value; }
 		}
 		string publicKeyOverride;
-		public string romsPath = "";
-		public bool searchSubdirs;
-		public bool useFolderName;
 		public string saveDir = "";
 		public int consoleId;
 		public List<string> extensions;
@@ -27,22 +27,8 @@ namespace NARCover {
 		public string imgURLBase;
 		public bool useFileNameForImage;
 
-		public delegate void GameNotFoundDel(GameNotFoundException e);
-		public delegate void APIExceptionDel(APIException e);
-		public delegate void GameInfoDel(GameInfo game, string imagePath);
-		public delegate void StartDownloadingDel(int gamesFound);
-		public delegate void GameFoundDel(GameInfo gameFound);
-		public delegate void StartFindingCoversDel(int gamesFound);
-		public delegate void Done();
-		public event GameNotFoundDel OnGameNotFound;
-		public event APIExceptionDel OnAPIException;
-		public event GameInfoDel OnImageDownloaded;
-		public event StartFindingCoversDel OnStartFindingCovers;
-		public event GameFoundDel OnGameFound;
-		public event StartDownloadingDel OnStartDownload;
-		public event Done OnDone;
-
 		public void Start() {
+			Update(new DownloaderUpdateInfo(DownloaderUpdateInfo.UpdateType.Start));
 			Task.Run(() => SearchAndDownloadGames());
 		}
 
@@ -52,28 +38,18 @@ namespace NARCover {
 		}
 
 		private Dictionary<int, GameInfo> SearchGames() {
-			gameFiles = new List<string>();
-
-			if (useFolderName) {
-				string[] names = Directory.GetDirectories(romsPath);
-
-				foreach (string name in names)
-					gameFiles.Add(Path.GetFileName(name)); // Folder name excluding path
-			} else {
-				SearchOption searchOption = searchSubdirs ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-				string[] names = Directory.GetFiles(romsPath, "*", searchOption);
-
-				foreach (string name in names)
-					if (extensions.Contains(Path.GetExtension(name)))
-						gameFiles.Add(Path.GetFileNameWithoutExtension(name));
-			}
-
 			// <Game code, GameInfo>
 			Dictionary<int, GameInfo> gamesData = new Dictionary<int, GameInfo>();
 
 			foreach (string game in gameFiles) {
 				string simplifiedName = Utils.GetSimplifiedGameName(game);
 				int gameId = ProcessGame(simplifiedName);
+
+				if (gamesData.ContainsKey(gameId)) {
+					OnGameNotFound(new GameNotFoundException(simplifiedName)); // TODO: inform game duplicated
+					continue;
+				}
+
 				if (gameId != -1) {
 					GameInfo gameInfo = new GameInfo(game, simplifiedName);
 					gamesData.Add(gameId, gameInfo);
@@ -165,13 +141,43 @@ namespace NARCover {
 		}
 
 		void DownloadImages(GameInfo[] gameCodes) {
-			foreach (GameInfo game in gameCodes) {
-				using (var client = new WebClient()) {
-					Uri uri = new Uri(imgURLBase + game.imageAddress);
-					string _name = useFileNameForImage ? game.filename : game.filename;
-					client.DownloadFile(uri, Path.Combine(saveDir, _name + Path.GetExtension(game.imageAddress)));
-					OnImageDownloaded(game, Path.Combine(saveDir, _name + Path.GetExtension(game.imageAddress)));
+			try {
+				foreach (GameInfo game in gameCodes) {
+					using (var client = new WebClient()) {
+						Uri uri = new Uri(imgURLBase + game.imageAddress);
+						string _name = useFileNameForImage ? game.sourceFile : game.sourceFile;
+						client.DownloadFile(uri, Path.Combine(saveDir, _name + Path.GetExtension(game.imageAddress)));
+						OnImageDownloaded(game, Path.Combine(saveDir, _name + Path.GetExtension(game.imageAddress)));
+					}
 				}
+			} catch (WebException e) {
+
+			}
+		}
+
+		void StartFindingImages() {
+			Update(new DownloaderUpdateInfo(DownloaderUpdateInfo.UpdateType.StartFindingImages));
+		}
+
+		void StartDownloadingImages() {
+			Update(new DownloaderUpdateInfo(DownloaderUpdateInfo.UpdateType.StartDownloadingImages));
+		}
+
+		void End() {
+			Update(new DownloaderUpdateInfo(DownloaderUpdateInfo.UpdateType.Finish));
+		}
+
+		public class DownloaderUpdateInfo {
+			public enum UpdateType {
+				Start, GameFound, GameNotFound, ImageDownload, StartFindingImages, StartDownloadingImages, Finish
+			}
+			public UpdateType type;
+
+			public GameInfo game;
+
+			public DownloaderUpdateInfo(UpdateType type, GameInfo game = null) {
+				this.type = type;
+				this.game = game;
 			}
 		}
 	}
