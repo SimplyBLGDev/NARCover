@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace NARCover {
 	public class Downloader {
 		public const string PUBLICKEY = "97b9ec2c3dd0573d0d03f832c98041320383bfbb7294452d19431bd728b5557a";
+		const string GAMENAMEREQUEST = "https://api.thegamesdb.net/v1.1/Games/ByGameName?apikey={0}&name={1}&filter[platform]={2}";
+		const string COVERREQUEST = "https://api.thegamesdb.net/v1/Games/Images?apikey={0}&games_id={1}";
 
 		public delegate void DownloaderUpdate(UpdateInfo info);
 		public delegate void DownloaderPhaseChange(PhaseInfo info);
@@ -17,12 +19,12 @@ namespace NARCover {
 		public event DownloaderPhaseChange PhaseChange;
 		public event DownloaderExceptionThrown ExceptionThrown;
 
-		public /*heh*/ string publicKey {
+		public string publicKey {
 			get { return publicKeyOverride == null ? PUBLICKEY : publicKeyOverride; }
 			set { publicKeyOverride = value; }
 		}
-		string publicKeyOverride;
-		public string saveDir = "";
+		public string publicKeyOverride;
+		public string saveDir;
 		public int consoleId;
 		public List<string> extensions;
 		public List<string> priorityImageTypes;
@@ -70,17 +72,18 @@ namespace NARCover {
 		}
 
 		private int ProcessGame(string game) {
+			int code = -1;
 			try {
-				return FindGameCode(game);
+				code = FindGameCode(game);
 			} catch (APIException e) {
 				ExceptionThrown(e);
 			}
 
-			return -1;
+			return code;
 		}
 
 		private int FindGameCode(string name) {
-			string responseString = Utils.Get("https://api.thegamesdb.net/v1.1/Games/ByGameName?apikey=" + publicKey + "&name=" + name + "&filter[platform]=" + consoleId.ToString());
+			string responseString = Utils.Get(string.Format(GAMENAMEREQUEST, PUBLICKEY, name, consoleId.ToString()));
 			JObject response = JObject.Parse(responseString);
 
 			if (response.Value<int>("code") != 200) { // No success code
@@ -95,10 +98,10 @@ namespace NARCover {
 
 		// Populates a dictionary of game codes with their respective images' urls
 		private void FindCovers(Dictionary<int, GameInfo> gameCodes) {
-			string gameCodesString = string.Concat(gameCodes.Keys);
+			string gameCodesString = string.Join(", ", gameCodes.Keys);
 
 			// Get all games images in a single request
-			string responseString = Utils.Get("https://api.thegamesdb.net/v1/Games/Images?apikey=" + publicKey + "&games_id=" + gameCodesString);
+			string responseString = Utils.Get(string.Format(COVERREQUEST, publicKey, gameCodesString));
 			JObject response = JObject.Parse(responseString);
 
 			if (response.Value<int>("code") != 200)// No success code

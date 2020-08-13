@@ -41,7 +41,7 @@ namespace NARCover {
 
 			File.WriteAllText(@path, export);
 
-			lblExportStatus.Text = "Games Not Found list written to " + path;
+			lblExportStatus.Text = "List saved.";
 			btnExportNotFound.Enabled = false;
 		}
 
@@ -83,6 +83,18 @@ namespace NARCover {
 			}
 		}
 
+		void OnDownloaderException(Exception e) {
+			if (e.GetType() == typeof(APIException))
+				switch (MessageBox.Show("API request error, the games DB might be offline or API outdated, check https://thegamesdb.net or " +
+					"contact me at https://github.com/SimplyBLGDev/NARCover.", "API Exception", MessageBoxButtons.OKCancel, MessageBoxIcon.Error)) {
+					case DialogResult.Cancel:
+						Close(); // TODO
+						break;
+					case DialogResult.OK:
+						break;
+				}
+		}
+
 		private void UpdateStateLabels(int newState) {
 			Label[] stateLabels = new Label[] { lblState0, lblState1, lblState2};
 
@@ -95,15 +107,7 @@ namespace NARCover {
 
 		private void Downloader_ExceptionThrown(Exception e) {
 			Invoke(new MethodInvoker(() => {
-				if (e.GetType() == typeof(APIException))
-					switch (MessageBox.Show("API request error, the games DB might be offline or API outdated, check https://thegamesdb.net or " +
-						"contact me at https://github.com/SimplyBLGDev/NARCover.", "API Exception", MessageBoxButtons.OKCancel, MessageBoxIcon.Error)) {
-						case DialogResult.Cancel:
-							Close(); // TODO
-							break;
-						case DialogResult.OK:
-							break;
-					}
+				OnDownloaderException(e);
 			}));
 		}
 
@@ -115,7 +119,7 @@ namespace NARCover {
 
 		private void Downloader_Update(Downloader.UpdateInfo info) {
 			Invoke(new MethodInvoker(() => {
-				OnDownloaderUpdate();
+				OnDownloaderUpdate(info);
 			}));
 		}
 
