@@ -10,6 +10,7 @@ namespace NARCover {
 		public static string GetSimplifiedGameName(string name) {
 			string r = name;
 
+			r = RemoveID(r);
 			r = RemoveParentheses(r);
 			r = RemoveVersion(r);
 			r = RelocateAfterComma(r);
@@ -53,6 +54,18 @@ namespace NARCover {
 			foreach (Match m in Regex.Matches(from, " ?(([vV]ersion)|([vV]er)|[vV]) ?[0-9,\\-._]{1,}"))
 				if (m.Success)
 					ret = ret.Replace(m.Value, "");
+
+			return ret;
+		}
+
+		// Remove the ID number at the beggining of the string ex: #### - Game Name would return 'Game name'
+		public static string RemoveID(string from) {
+			string ret = from;
+
+			Match m = Regex.Match(from, "^[0 - 9]{ 1,} ( ?[-_:]) ? ?");
+
+			if (m.Success)
+				ret = ret.Replace(m.Value, "");
 
 			return ret;
 		}
