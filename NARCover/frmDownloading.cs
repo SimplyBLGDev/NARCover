@@ -7,7 +7,6 @@ using System.Windows.Forms;
 namespace NARCover {
 	public partial class frmDownloading : Form {
 		Downloader downloader;
-		bool done = false;
 		List<string> missingGames;
 
 		public frmDownloading(string[] files, List<string> priorityImageTypes, string saveDir, int console,
@@ -26,10 +25,63 @@ namespace NARCover {
 			downloader.useFileNameForImage = useFilename;
 
 			downloader.Update += Downloader_Update;
+			downloader.PhaseChange += Downloader_PhaseChange;
+			downloader.ExceptionThrown += Downloader_ExceptionThrown;
+		}
+
+		private void Downloader_ExceptionThrown(Exception e) {
+			Invoke(new MethodInvoker(() => {
+				if (e.GetType() == typeof(APIException))
+					switch (MessageBox.Show("API request error, the games DB might be offline or API outdated, check https://thegamesdb.net or " +
+						"contact me at https://github.com/SimplyBLGDev/NARCover.", "API Exception", MessageBoxButtons.OKCancel, MessageBoxIcon.Error)) {
+						case DialogResult.Cancel:
+							Close(); // TODO
+							break;
+						case DialogResult.OK:
+							break;
+					}
+			}));
+		}
+
+		private void Downloader_PhaseChange(Downloader.PhaseInfo info) {
+			Invoke(new MethodInvoker(() => {
+				switch (info.phase) {
+					case Downloader.PhaseInfo.Phase.Start:
+						UpdateStateLabels(0);
+						break;
+					case Downloader.PhaseInfo.Phase.FindImages:
+						UpdateStateLabels(1);
+						break;
+					case Downloader.PhaseInfo.Phase.DownloadImages:
+						UpdateStateLabels(2);
+						pbProgress.Maximum = info.gamesFound;
+						break;
+					case Downloader.PhaseInfo.Phase.Finish:
+						MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						btnExportNotFound.Enabled = true;
+						break;
+				}
+			}));
 		}
 
 		private void Downloader_Update(Downloader.UpdateInfo info) {
-			throw new NotImplementedException();
+			Invoke(new MethodInvoker(() => {
+				switch (info.type) {
+					case Downloader.UpdateInfo.UpdateType.GameFound:
+						lblCurrentDownload.Text = "Found game: " + info.game.name;
+						break;
+					case Downloader.UpdateInfo.UpdateType.GameNotFound:
+						missingGames.Add(info.game.name);
+						lvMissingGames.Items.Add(info.game.name);
+						break;
+					case Downloader.UpdateInfo.UpdateType.ImageDownload:
+						pbProgress.Value++;
+						lblPreviewGameName.Text = info.game.name;
+						pbImagePreview.ImageLocation = info.game.imageAddress;
+						lblCurrentDownload.Text = "Downloaded " + info.game.name + " to " + info.game.imageAddress;
+						break;
+				}
+			}));
 		}
 
 		private void frmDownloading_Shown(object sender, EventArgs e) {
@@ -49,71 +101,14 @@ namespace NARCover {
 			btnExportNotFound.Enabled = false;
 		}
 
-		private void Downloader_OnDone() {
-			Invoke(new MethodInvoker(() => {
-				MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				btnExportNotFound.Enabled = true;
-				done = true;
-			}));
-		}
-
 		private void UpdateStateLabels(int newState) {
-			Label currentStateLabel;
 			Label[] stateLabels = new Label[] { lblState0, lblState1, lblState2};
-
-			currentStateLabel = stateLabels[newState];
 
 			for (int i = 0; i < stateLabels.Length; i++)
 				if (i == newState)
 					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Bold);
 				else
 					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Regular);
-		}
-
-		private void Downloader_OnStartFindingCovers(int gamesFound) {
-			Invoke(new MethodInvoker(() => {
-				UpdateStateLabels(1);
-			}));
-		}
-
-		private void Downloader_OnGameFound(GameInfo gameFound) {
-			Invoke(new MethodInvoker(() => {
-				lblCurrentDownload.Text = "Found game: " + gameFound.name;
-			}));
-		}
-
-		private void Downloader_OnStartDownload(int gamesFound) {
-			Invoke(new MethodInvoker(() => {
-				UpdateStateLabels(2);
-				pbProgress.Maximum = gamesFound;
-			}));
-		}
-
-		private void Downloader_ImageDownloaded(GameInfo game, string imagePath) {
-			Invoke(new MethodInvoker(() => {
-				pbProgress.Value++;
-				lblPreviewGameName.Text = game.name;
-				pbImagePreview.ImageLocation = imagePath;
-				lblCurrentDownload.Text = "Downloaded " + game.name + " to " + imagePath;
-			}));
-		}
-
-		private void Downloader_GameNotFound(GameNotFoundException e) {
-			Invoke(new MethodInvoker(() => {
-				missingGames.Add(e.game);
-				lvMissingGames.Items.Add(e.game);
-			}));
-		}
-
-		private void Downloader_APIException(APIException e) {
-			switch (MessageBox.Show("API request error, the games DB might be offline or API outdated, check https://thegamesdb.net or " +
-					"contact me at https://github.com/SimplyBLGDev/NARCover.", "API Exception", MessageBoxButtons.OKCancel, MessageBoxIcon.Error)) {
-				case DialogResult.Cancel:
-					Close(); // TODO
-					break;
-				case DialogResult.OK:
-					break;
-			}
 		}
 
 		private void frmDownloading_FormClosing(object sender, FormClosingEventArgs e) {

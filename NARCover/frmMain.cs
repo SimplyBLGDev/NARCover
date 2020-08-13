@@ -92,7 +92,7 @@ namespace NARCover {
 			JObject response = JObject.Parse(responseString);
 
 			if (response.Value<int>("code") != 200) { // No success code
-				throw new APIException("API Request Error.", response.Value<int>("code"));
+				throw new APIException(response.Value<int>("code"));
 			} else {
 				cmbConsole.Items.Clear();
 				foreach (JToken platform in response["data"]["platforms"].Children()) {

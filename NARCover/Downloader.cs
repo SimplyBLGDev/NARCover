@@ -35,18 +35,18 @@ namespace NARCover {
 		}
 
 		private void SearchAndDownloadGames() {
-			PhaseChange(new PhaseInfo(PhaseInfo.Phase.Start));
+			PhaseChange(new PhaseInfo(PhaseInfo.Phase.Start, 0));
 			Dictionary<int, GameInfo> gamesData = SearchGames();
 
 			if (gamesData.Count > 0) {
-				PhaseChange(new PhaseInfo(PhaseInfo.Phase.FindImages));
+				PhaseChange(new PhaseInfo(PhaseInfo.Phase.FindImages, gamesData.Count));
 				FindCovers(gamesData);
 
-				PhaseChange(new PhaseInfo(PhaseInfo.Phase.DownloadImages));
+				PhaseChange(new PhaseInfo(PhaseInfo.Phase.DownloadImages, gamesData.Count));
 				DownloadImages(gamesData.Values.ToArray());
 			}
 
-			PhaseChange(new PhaseInfo(PhaseInfo.Phase.Finish));
+			PhaseChange(new PhaseInfo(PhaseInfo.Phase.Finish, gamesData.Count));
 		}
 
 		private Dictionary<int, GameInfo> SearchGames() {
@@ -167,8 +167,11 @@ namespace NARCover {
 			}
 			public Phase phase;
 
-			public PhaseInfo(Phase phase) {
+			public int gamesFound;
+
+			public PhaseInfo(Phase phase, int gamesFound) {
 				this.phase = phase;
+				this.gamesFound = gamesFound;
 			}
 		}
 	}
