@@ -28,7 +28,7 @@ namespace NARCover {
 			downloader.Update += Downloader_Update;
 		}
 
-		private void Downloader_Update(Downloader.DownloaderUpdateInfo info) {
+		private void Downloader_Update(Downloader.UpdateInfo info) {
 			throw new NotImplementedException();
 		}
 
