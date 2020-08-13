@@ -108,6 +108,7 @@ namespace NARCover {
 		public string sourceFile;
 		public string name;
 		public string imageAddress;
+		public string imageSaveAddress;
 
 		public GameInfo(string name, string filename) {
 			this.name = name;

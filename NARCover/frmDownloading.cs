@@ -29,6 +29,70 @@ namespace NARCover {
 			downloader.ExceptionThrown += Downloader_ExceptionThrown;
 		}
 
+		void ExportGamesNotFoundToFile() {
+			string resultFileName = "Games Not Found_" + DateTime.Now.ToString("u") + ".txt";
+			resultFileName = resultFileName.Replace(":", " "); // : is not a valid character in a path
+
+			string path = Path.Combine(Application.StartupPath, resultFileName);
+			string export = "Games not found:\n";
+
+			foreach (string entry in missingGames)
+				export += "\n" + entry;
+
+			File.WriteAllText(@path, export);
+
+			lblExportStatus.Text = "Games Not Found list written to " + path;
+			btnExportNotFound.Enabled = false;
+		}
+
+		void OnDownloaderUpdate(Downloader.UpdateInfo info) {
+			switch (info.type) {
+				case Downloader.UpdateInfo.UpdateType.GameFound:
+					lblCurrentDownload.Text = "Game found: " + info.game.name;
+					break;
+				case Downloader.UpdateInfo.UpdateType.GameNotFound:
+					missingGames.Add(info.game.name);
+					lvMissingGames.Items.Add(info.game.name);
+					lblCurrentDownload.Text = "Game not found: " + info.game.name;
+					break;
+				case Downloader.UpdateInfo.UpdateType.ImageDownload:
+					pbProgress.Value++;
+					lblPreviewGameName.Text = info.game.name;
+					pbImagePreview.ImageLocation = info.game.imageSaveAddress;
+					lblCurrentDownload.Text = "Downloaded " + info.game.name + " to " + info.game.imageSaveAddress;
+					break;
+			}
+		}
+
+		void OnDownloaderPhaseChange(Downloader.PhaseInfo info) {
+			switch (info.phase) {
+				case Downloader.PhaseInfo.Phase.Start:
+					UpdateStateLabels(0);
+					break;
+				case Downloader.PhaseInfo.Phase.FindImages:
+					UpdateStateLabels(1);
+					break;
+				case Downloader.PhaseInfo.Phase.DownloadImages:
+					UpdateStateLabels(2);
+					pbProgress.Maximum = info.gamesFound;
+					break;
+				case Downloader.PhaseInfo.Phase.Finish:
+					MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					btnExportNotFound.Enabled = true;
+					break;
+			}
+		}
+
+		private void UpdateStateLabels(int newState) {
+			Label[] stateLabels = new Label[] { lblState0, lblState1, lblState2};
+
+			for (int i = 0; i < stateLabels.Length; i++)
+				if (i == newState)
+					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Bold);
+				else
+					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Regular);
+		}
+
 		private void Downloader_ExceptionThrown(Exception e) {
 			Invoke(new MethodInvoker(() => {
 				if (e.GetType() == typeof(APIException))
@@ -45,42 +109,13 @@ namespace NARCover {
 
 		private void Downloader_PhaseChange(Downloader.PhaseInfo info) {
 			Invoke(new MethodInvoker(() => {
-				switch (info.phase) {
-					case Downloader.PhaseInfo.Phase.Start:
-						UpdateStateLabels(0);
-						break;
-					case Downloader.PhaseInfo.Phase.FindImages:
-						UpdateStateLabels(1);
-						break;
-					case Downloader.PhaseInfo.Phase.DownloadImages:
-						UpdateStateLabels(2);
-						pbProgress.Maximum = info.gamesFound;
-						break;
-					case Downloader.PhaseInfo.Phase.Finish:
-						MessageBox.Show("Done", "Finished", MessageBoxButtons.OK, MessageBoxIcon.Information);
-						btnExportNotFound.Enabled = true;
-						break;
-				}
+				OnDownloaderPhaseChange(info);
 			}));
 		}
 
 		private void Downloader_Update(Downloader.UpdateInfo info) {
 			Invoke(new MethodInvoker(() => {
-				switch (info.type) {
-					case Downloader.UpdateInfo.UpdateType.GameFound:
-						lblCurrentDownload.Text = "Found game: " + info.game.name;
-						break;
-					case Downloader.UpdateInfo.UpdateType.GameNotFound:
-						missingGames.Add(info.game.name);
-						lvMissingGames.Items.Add(info.game.name);
-						break;
-					case Downloader.UpdateInfo.UpdateType.ImageDownload:
-						pbProgress.Value++;
-						lblPreviewGameName.Text = info.game.name;
-						pbImagePreview.ImageLocation = info.game.imageAddress;
-						lblCurrentDownload.Text = "Downloaded " + info.game.name + " to " + info.game.imageAddress;
-						break;
-				}
+				OnDownloaderUpdate();
 			}));
 		}
 
@@ -89,26 +124,7 @@ namespace NARCover {
 		}
 
 		private void btnExportNotFound_Click(object sender, EventArgs e) {
-			string path = Path.Combine(Application.StartupPath, "'Games Not Found_" + DateTime.Now.ToString("u") + ".txt'");
-			string export = "Games not found:\n";
-
-			foreach (string entry in missingGames)
-				export += "\n" + entry;
-
-			File.WriteAllText(@path, export);
-
-			lblExportStatus.Text = "Games Not Found list written to " + path;
-			btnExportNotFound.Enabled = false;
-		}
-
-		private void UpdateStateLabels(int newState) {
-			Label[] stateLabels = new Label[] { lblState0, lblState1, lblState2};
-
-			for (int i = 0; i < stateLabels.Length; i++)
-				if (i == newState)
-					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Bold);
-				else
-					stateLabels[i].Font = new Font(stateLabels[i].Font.FontFamily, stateLabels[i].Font.Size, FontStyle.Regular);
+			ExportGamesNotFoundToFile();
 		}
 
 		private void frmDownloading_FormClosing(object sender, FormClosingEventArgs e) {

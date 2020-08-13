@@ -137,8 +137,9 @@ namespace NARCover {
 				foreach (GameInfo game in gameCodes) {
 					using (var client = new WebClient()) {
 						Uri uri = new Uri(imgURLBase + game.imageAddress);
-						string _name = useFileNameForImage ? game.sourceFile : game.sourceFile;
-						client.DownloadFile(uri, Path.Combine(saveDir, _name + Path.GetExtension(game.imageAddress)));
+						string _name = useFileNameForImage ? game.sourceFile : game.name;
+						game.imageSaveAddress = Path.Combine(saveDir, _name + Path.GetExtension(game.imageAddress));
+						client.DownloadFile(uri, game.imageSaveAddress);
 						Update(new UpdateInfo(UpdateInfo.UpdateType.ImageDownload, game));
 					}
 				}

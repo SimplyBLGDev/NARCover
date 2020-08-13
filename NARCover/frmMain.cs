@@ -21,7 +21,6 @@ namespace NARCover {
 		int console { get { return platformIds[cmbConsole.Text]; } }
 		bool useFilename { get { return rbROMName.Checked; } }
 		string romsPath { get { return txtROMsPath.Text; } }
-		string saveDir { get { return txtSaveDir.Text; } }
 		bool subdirs { get { return chkSubdir.Checked; } }
 
 		public frmMain() {
@@ -48,12 +47,18 @@ namespace NARCover {
 
 			string[] validFiles = Utils.GetValidFiles(romsPath, GetExtensions(), useFolderName, subdirs);
 
-			frmDownloading downloading = new frmDownloading(validFiles, GetPriorityList(), saveDir, console, quality, useFilename);
+			frmDownloading downloading = new frmDownloading(validFiles, GetPriorityList(), GetSaveDir(), console, quality, useFilename);
 			Hide();
 			if (downloading.ShowDialog() == DialogResult.OK)
 				Close();
 			else
 				Show();
+		}
+
+		string GetSaveDir() {
+			if (txtSaveDir.Text == "")
+				return Path.Combine(Application.StartupPath, "images");
+			return txtSaveDir.Text;
 		}
 
 		List<string> GetExtensions() {
@@ -73,7 +78,7 @@ namespace NARCover {
 				errorMsg += "Invalid console, pick one from the dropdown list.\n";
 			else if (!Directory.Exists(txtROMsPath.Text))
 				errorMsg += "ROMs Path invalid.\n";
-			else if (!Directory.Exists(txtSaveDir.Text))
+			else if (!Directory.Exists(GetSaveDir()))
 				errorMsg += "Images' save dir invalid.\n";
 			else if (txtExtensions.Text.Split(';').Length == 0)
 				errorMsg += "Select at least one file extension.\n";
