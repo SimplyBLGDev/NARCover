@@ -57,7 +57,7 @@ namespace NARCover {
 
 			foreach (string game in gameFiles) {
 				string simplifiedName = Utils.GetSimplifiedGameName(game);
-				GameInfo gameInfo = new GameInfo(game, simplifiedName);
+				GameInfo gameInfo = new GameInfo(simplifiedName, game);
 				int gameId = ProcessGame(simplifiedName);
 
 				if (gamesData.ContainsKey(gameId) || gameId == -1) { // Duplicate game or game not found
@@ -97,42 +97,60 @@ namespace NARCover {
 		}
 
 		// Populates a dictionary of game codes with their respective images' urls
-		private void FindCovers(Dictionary<int, GameInfo> gameCodes) {
-			string gameCodesString = string.Join(", ", gameCodes.Keys);
+		private void FindCovers(Dictionary<int, GameInfo> games) {
+			string gameCodesString = string.Join(", ", games.Keys);
+			JObject[] pages = GetResponsePages(string.Format(COVERREQUEST, publicKey, gameCodesString));
 
-			// Get all games images in a single request
-			string responseString = Utils.Get(string.Format(COVERREQUEST, publicKey, gameCodesString));
-			JObject response = JObject.Parse(responseString);
+			int[] keys = games.Keys.ToArray(); // Avoid on-the-fly conflicts due to dictionary modification
+			foreach (int code in keys)
+				if (!GetImageFromPages(pages, games, code)) // If no image could be found
+					games.Remove(code);
+		}
 
-			if (response.Value<int>("code") != 200)// No success code
-				throw new APIException(response.Value<int>("code"));
+		// Returns an array of every page from the request
+		private JObject[] GetResponsePages(string firstRequest) {
+			string request = firstRequest;
+			List<JObject> responses = new List<JObject>();
 
-			int[] keys = gameCodes.Keys.ToArray(); // Avoid on-the-fly conflicts due to dictionary modification
-			foreach (int code in keys) {
-				var availableGameImages = response["data"]["images"][code.ToString()];
+			while (request != null) {
+				string responseString = Utils.Get(request);
+				JObject response = JObject.Parse(responseString);
 
-				if (availableGameImages == null) {
-					Update(new UpdateInfo(UpdateInfo.UpdateType.GameNotFound, gameCodes[code]));
-					gameCodes.Remove(code);
-					continue;
-				}
+				if (response.Value<int>("code") != 200)// No success code
+					throw new APIException(response.Value<int>("code"));
 
-				foreach (string imageType in priorityImageTypes) {
-					for (int i = 0; i < availableGameImages.Count(); i++)
-						if ((availableGameImages[i].Value<string>("type") == imageType)
-						&& (imageType != "boxart" || availableGameImages[i].Value<string>("side") == "front")) { // If looking for boxart only take the front side
-
-							gameCodes[code].imageAddress = availableGameImages[i].Value<string>("filename");
-							break;
-						}
-
-					if (gameCodes[code].imageAddress != "")
-						break; // break when we found the image
-				}
-
-				if (gameCodes[code].imageAddress == "") // If no image could be found
-					gameCodes.Remove(code);
+				request = response["pages"].Value<string>("next");
+				responses.Add(response);
 			}
+
+			return responses.ToArray();
+		}
+
+		// Iterates through every page and gets it's Image URL, returns false if no image could be found
+		private bool GetImageFromPages(JObject[] pages, Dictionary<int, GameInfo> games, int code) {
+			foreach (JObject page in pages) {
+				JToken gameImageResponse = page["data"]["images"][code.ToString()];
+
+				if (gameImageResponse != null && GetImageURL(gameImageResponse, games[code]))
+					return true;
+			}
+
+			return false;
+		}
+
+		// Gets the image URL for game according to image type priorities 
+		private bool GetImageURL(JToken gameImageResponse, GameInfo game) {
+			foreach (string imageType in priorityImageTypes) {
+				for (int i = 0; i < gameImageResponse.Count(); i++)
+					if ((gameImageResponse[i].Value<string>("type") == imageType)
+					&& (imageType != "boxart" || gameImageResponse[i].Value<string>("side") == "front")) { // If looking for boxart only take the front side
+
+						game.imageAddress = gameImageResponse[i].Value<string>("filename");
+						return true;
+					}
+			}
+
+			return false;
 		}
 
 		void DownloadImages(GameInfo[] gameCodes) {

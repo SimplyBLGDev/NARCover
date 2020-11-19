@@ -62,7 +62,7 @@ namespace NARCover {
 		public static string RemoveID(string from) {
 			string ret = from;
 
-			Match m = Regex.Match(from, "^[0 - 9]{ 1,} ( ?[-_:]) ? ?");
+			Match m = Regex.Match(from, "^[0-9]{1,} ?[-,_] ?");
 
 			if (m.Success)
 				ret = ret.Replace(m.Value, "");
